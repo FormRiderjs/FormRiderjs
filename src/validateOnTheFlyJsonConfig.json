@@ -1,0 +1,69 @@
+{
+    "notifications":
+            [
+                {
+                    "notificationCode": 1,
+                    "validationStatus": true,
+                    "text": "Thank you for contacting us ! : )",
+                    "textColor": "#E6E6E6",
+                    "backgroundColor": "#5CD8AA",
+                    "animation": false
+                },
+                {
+                    "notificationCode": 2,
+                    "validationStatus": false,
+                    "text": "Error with some fields.",
+                    "textColor": "#E6E6E6",
+                    "backgroundColor": "#E66767",
+                    "animation": false
+                }
+            ],
+
+
+    "elementsToApplyValidationOn":
+            {
+                "contactUsForm":
+                {
+                  "notificationCode":
+                  {
+                    "validated" : 1,
+                    "notValidated" : 2
+                  },
+                  "formValidation": true,
+                  "resetFormUponSubmit": false,
+                  "inputNameToValidate":
+                  {
+                    "lastName":
+                    {
+                      "required": [true, "Required"]
+                    }
+                  }
+                }
+            },
+
+  "uiNotificationBoxCss":
+  {
+    "position": "fixed",
+    "zIndex": "1000",
+    "left": "0",
+    "top": "0",
+    "width": "100%",
+    "margin": "auto",
+    "padding": "17px",
+
+    "textAlign": "",
+    "fontSize": "16px",
+    "fontWeight": "bold"
+  },
+
+  "uiErrorBoxCss" :
+  {
+    "marginTop" : "10px",
+    "fontWeight" : "normal"
+  },
+  "uiCloseBoxButton" : {
+    "text" : "Close Notification",
+    "marginLeft" : "5px",
+    "cursor": "pointer"
+  }
+}
