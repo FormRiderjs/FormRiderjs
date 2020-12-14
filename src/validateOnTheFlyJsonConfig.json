@@ -36,6 +36,10 @@
                     "lastName":
                     {
                       "required": [true, "Required"]
+                    },
+                    "phoneNumber":
+                    {
+                      "required": [true, "Required"]
                     }
                   }
                 }

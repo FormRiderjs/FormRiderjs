@@ -1,17 +1,24 @@
 // this class will get formData, process data, call other necessary class
 import {InputValidation} from "./inputValidation.js";
 import {Notification} from "./notificationGenerator.js";
+import {CustomError} from "./customError.js";
 
 export class Processor {
     constructor(jsonConfigURL) {
+
 
         this.getJsonData(jsonConfigURL)
             .then((jsonData) => {
                 let elementsToApplyValidationOn = jsonData["elementsToApplyValidationOn"];
                 for (let formId in elementsToApplyValidationOn) {
                     if (elementsToApplyValidationOn.hasOwnProperty(formId)
-                    && document.getElementById(formId) !== null) {
+                        && document.getElementById(formId) !== null) {
                         this.processing("#" + formId, jsonConfigURL);
+                    }
+                    //terminate process and show error when formId in jsonConfigs !== formId to validate in the DOM
+                    if(elementsToApplyValidationOn.hasOwnProperty(formId)
+                    && document.getElementById(formId) === null) {
+                        throw new CustomError("OnTheFly.js ERROR", "Unknown formId" + ' "' + formId + '" ' + "in onTheFlyJsonConfig");
                     }
                 }
                 return jsonData;
@@ -22,6 +29,11 @@ export class Processor {
 
     }
 
+
+    /*    1- Block the submit while validating
+        2- Block the DOM using setTimeout while validating
+        3 - when validation is done => show error notification / show confirmation notification + unblock the DOM + submit
+        */
     processing(selector, jsonConfigURL) {
         let form = document.querySelector(selector);
         form.addEventListener("submit", (event) => {
@@ -33,13 +45,13 @@ export class Processor {
             let formId = this.getFormId(form);
             let dataToSubmit = formDataEncoded.join("&");
 
+            //create a new instance of InputValidation in order to validate the input
             let inputValidation = new InputValidation(formId, formData, jsonConfigURL);
 
             let that = this;
             let timer = setTimeout(function () {
-
-
                 if (inputValidation["validated"] === true) {
+                    //submit data when form is validated
                     that.sendData(requestMethod, postURL, dataToSubmit);
                 }
                 if (typeof (inputValidation["resetFormUponSubmitValue"]) !== "undefined") {
@@ -49,7 +61,6 @@ export class Processor {
             }, 100);
         });
     }
-
 
 
 //get all form inputs and values as key value into an array
@@ -67,7 +78,15 @@ export class Processor {
         let formData = [];
         for (let i = 0; i < form.elements.length; i++) {
             let element = form.elements[i];
-            formData.push(element.name + "=" + element.value);
+
+            //HTML custom attribute
+            let elementName = element.getAttribute("data-name");
+            let elementValue = element.value;
+
+            //checking if
+            if(elementName !== null){
+                formData.push(elementName + "=" + elementValue);
+            }
         }
         return formData;
     }
@@ -104,7 +123,6 @@ export class Processor {
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     resolve(JSON.parse(this.responseText));
                 }
-
             };
             xhr.open("GET", jsonConfigFileURL, true);
             xhr.send();

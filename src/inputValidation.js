@@ -1,6 +1,8 @@
+import {CustomError} from "./customError.js";
+
 export class InputValidation {
 
-    /*this array is accessible from all methods. whenever an error occured, it
+    /*this array is accessible from all methods. whenever an error occurred, it
      will be pushed to this array and passed to notificationGenerator after  */
     inputValidationRecap = [];
     validationErrorArray = [];
@@ -17,19 +19,20 @@ export class InputValidation {
             .then((jsonData) => {
                 //extracting the elementsToApplyValidationOn from json file and passing it to the next then
                 return this.extractJsonElementToApplyValidationOn(jsonData, formId);
+
             })
             .then((elementToApplyValidationOn) => {
                 this.resetFormUponSubmitValue = elementToApplyValidationOn.resetFormUponSubmit;
                 this.extractNotificationCode(elementToApplyValidationOn);
                 let formNeedToBeValidated = this.verifyIfFormToBeValidated(elementToApplyValidationOn);
                 if (formNeedToBeValidated === true) {
-                    return this.extractJsonInputNameToValidate(elementToApplyValidationOn);
-
+                    return elementToApplyValidationOn.inputNameToValidate;
                 } else if (formNeedToBeValidated === false) {
                     return elementToApplyValidationOn;
                 }
             })
             .then((jsonInputNameToValidate) => {
+
                 //array of arrays where in every array : key is the input and value is the inputs value
                 let formKeyValueOfInputValue = [];
                 for (let i = 0; i < formData.length; i++) {
@@ -37,10 +40,19 @@ export class InputValidation {
                     formKeyValueOfInputValue.push(formData[i].split('='));
                 }
 
-                for (let i = 0; i < formKeyValueOfInputValue.length; i++) {
 
+                let jsonInputNameToValidateKeys = Object.keys(jsonInputNameToValidate);
+
+                for (let i = 0; i < formKeyValueOfInputValue.length; i++) {
                     let formInputName = formKeyValueOfInputValue[i][0];
                     let formInputValue = formKeyValueOfInputValue[i][1];
+                    let jsonInputNameToValidateKey = jsonInputNameToValidateKeys[i];
+
+
+                    if (formInputName !== jsonInputNameToValidateKey) {
+                        throw new CustomError("OnTheFly.js ERROR", "Unknown data-name"+' "'+ jsonInputNameToValidateKey +'" '  +"in onTheFlyJsonConfig ");
+                    }
+
 
                     for (let propertyKey in jsonInputNameToValidate[formInputName]) {
 
@@ -49,7 +61,7 @@ export class InputValidation {
                         let propertyValue = jsonInputNameToValidate[formInputName][propertyKey][0];
                         let propertyErrorText = jsonInputNameToValidate[formInputName][propertyKey][1];
 
-                        //calling the prefix fucntion, this will call functions depending on propertyKey adter capitalizing it's first letter
+                        //calling the prefix function, this will call functions depending on propertyKey after capitalizing it's first letter
                         this.callFunction(propertyKeyCapitalized, propertyValue, formInputName, formInputValue, propertyErrorText);
                     }
                 }
@@ -93,21 +105,11 @@ export class InputValidation {
     }
 
 //==============================================================================
-    // if there is any repetetion of the same error in the array it will reduce error numbers
-    reducevalidationErrorArray(array) {
 
-    }
-
-//==============================================================================
 
     //extract the elementsToApplyValidationOn depending on form id, so formId should be the same as the formId in json file
     extractJsonElementToApplyValidationOn(jsonData, formId) {
         return jsonData["elementsToApplyValidationOn"][formId];
-    }
-
-    //extract the InputNameToValidate from the json file, it should be the same as the input name of the given form
-    extractJsonInputNameToValidate(jsonData) {
-        return jsonData.inputNameToValidate;
     }
 
 

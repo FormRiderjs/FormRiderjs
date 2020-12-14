@@ -1,23 +1,29 @@
-
+import {CustomError} from "./customError.js";
 
 
 export class Notification {
 
     constructor(inputValidationRecap, jsonConfigURL) {
 
+
         let inputValidationErrorArray = inputValidationRecap[1];
+        //terminate process and show uncaught error, anyway...this will happen only if there is previous errors it is done to prevent unnecessary errors to be shown
+        if(inputValidationErrorArray === undefined){
+            throw new CustomError("OnTheFly.js ERROR", "Uncaught error");
+        }
 
         let inputValidationErrorLength = inputValidationErrorArray.length;
+
         let notificationCode = this.extractNotificationCode(inputValidationRecap[0], inputValidationErrorLength);
         this.getJsonData(jsonConfigURL)
             .then((jsonData) => {
                 let uiNotificationBox = this.extractNotificationBoxCss(jsonData["uiNotificationBoxCss"]);
                 let uiErrorBox = this.extractErrorBoxCss(jsonData["uiErrorBoxCss"]);
-                let uiCloseButton = this.extractCloseBoxButton(jsonData["uiCloseBoxButton"],uiNotificationBox);
-                let notificationAssembled = this.notificationAssembler(jsonData["notifications"], notificationCode, inputValidationErrorArray, uiNotificationBox, uiErrorBox,uiCloseButton);
+                let uiCloseButton = this.extractCloseBoxButton(jsonData["uiCloseBoxButton"], uiNotificationBox);
+                let notificationAssembled = this.notificationAssembler(jsonData["notifications"], notificationCode, inputValidationErrorArray, uiNotificationBox, uiErrorBox, uiCloseButton);
                 let notification = this.uiShowNotification(notificationAssembled);
-                this.closeNotificationManually(uiCloseButton,notification);
-                this.closeNotificationAutomatically(notification,inputValidationErrorLength,5000);
+                this.closeNotificationManually(uiCloseButton, notification);
+                this.closeNotificationAutomatically(notification, inputValidationErrorLength, 5000);
                 return jsonData;
             })
             .catch(function (error) {
@@ -78,7 +84,7 @@ export class Notification {
 
 
     //extracting uiCloseBoxButton form jsonConfig file and create a div with theses CSS specifications
-    extractCloseBoxButton(jsonData){
+    extractCloseBoxButton(jsonData) {
 
         let uiCloseBoxButton = document.createElement("span");
         uiCloseBoxButton.innerHTML = jsonData["text"];
@@ -91,7 +97,7 @@ export class Notification {
 
     //this function will create the final notification (after extracting all necessary data such as error array + error button css specifications)
     //FINAL STEP BEFORE SHOWING THE NOTIFICATION
-    notificationAssembler(jsonData, notificationCode, inputValidationErrorArray, uiNotificationBox, uiErrorBox ,uiCloseBoxButton) {
+    notificationAssembler(jsonData, notificationCode, inputValidationErrorArray, uiNotificationBox, uiErrorBox, uiCloseBoxButton) {
 
         let validationStatus = true;
 
@@ -121,12 +127,9 @@ export class Notification {
         }
 
 
-
-
         let uiNotificationContent = document.createElement("div");
         uiNotificationContent.style.color = notificationTextColor;
         uiNotificationContent.innerHTML = notificationText;
-
 
 
         uiCloseBoxButton.style.borderBottom = "solid 2px" + notificationTextColor;
@@ -154,17 +157,17 @@ export class Notification {
 
     //create a X button on the right side in order to be able to close the notification
     //if not closing automatically via the animation function
-    closeNotificationAutomatically(notification,inputValidationErrorLength,delay) {
-        if(inputValidationErrorLength === 0){
-            setTimeout(function(){
+    closeNotificationAutomatically(notification, inputValidationErrorLength, delay) {
+        if (inputValidationErrorLength === 0) {
+            setTimeout(function () {
                 notification.parentNode.removeChild(notification);
-            },delay);
+            }, delay);
         }
     }
 
 
-    closeNotificationManually(uiCloseButton,notification){
-        uiCloseButton.addEventListener("click",function(){
+    closeNotificationManually(uiCloseButton, notification) {
+        uiCloseButton.addEventListener("click", function () {
             notification.parentNode.removeChild(notification);
         });
     }
