@@ -29,17 +29,12 @@
                     "validated" : 1,
                     "notValidated" : 2
                   },
-                  "formValidation": true,
                   "resetFormUponSubmit": false,
                   "inputNameToValidate":
                   {
-                    "lastName":
+                    "last Name":
                     {
-                      "required": [true, "Required"]
-                    },
-                    "phoneNumber":
-                    {
-                      "required": [true, "Required"]
+                      "required" : [true, "input is required"]
                     }
                   }
                 }
