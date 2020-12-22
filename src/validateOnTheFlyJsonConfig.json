@@ -1,47 +1,109 @@
 {
-    "notifications":
-            [
-                {
-                    "notificationCode": 1,
-                    "validationStatus": true,
-                    "text": "Thank you for contacting us ! : )",
-                    "textColor": "#E6E6E6",
-                    "backgroundColor": "#5CD8AA",
-                    "animation": false
-                },
-                {
-                    "notificationCode": 2,
-                    "validationStatus": false,
-                    "text": "Error with some fields.",
-                    "textColor": "#E6E6E6",
-                    "backgroundColor": "#E66767",
-                    "animation": false
-                }
-            ],
-
-
-    "elementsToApplyValidationOn":
-            {
-                "contactUsForm":
-                {
-                  "notificationCode":
-                  {
-                    "validated" : 1,
-                    "notValidated" : 2
-                  },
-                  "resetFormUponSubmit": false,
-                  "inputNameToValidate":
-                  {
-                    "last Name":
-                    {
-                      "required" : [true, "input is required"]
-                    }
-                  }
-                }
-            },
-
-  "uiNotificationBoxCss":
-  {
+  "notifications": [
+    {
+      "notificationCode": 1,
+      "validationStatus": true,
+      "text": "Thank you for contacting us ! : )",
+      "textColor": "#E6E6E6",
+      "backgroundColor": "#5CD8AA",
+      "animation": false
+    },
+    {
+      "notificationCode": 2,
+      "validationStatus": false,
+      "text": "Error with some fields.",
+      "textColor": "#E6E6E6",
+      "backgroundColor": "#E66767",
+      "animation": false
+    }
+  ],
+  "elementsToApplyValidationOn": {
+    "homepageForm": {
+      "notificationCode": {
+        "validated": 1,
+        "notValidated": 2
+      },
+      "resetFormUponSubmit": false,
+      "inputNameToValidate": {
+        "last Name": {
+          "required": [
+            true,
+            "is required"
+          ]
+        }
+      }
+    },
+    "contactUsForm": {
+      "notificationCode": {
+        "validated": 1,
+        "notValidated": 2
+      },
+      "resetFormUponSubmit": false,
+      "inputNameToValidate": {
+        "last Name": {
+          "required": [
+            true,
+            "is required"
+          ]
+        },
+        "firstName": {
+          "required": [
+            true,
+            "is required"
+          ]
+        }
+      }
+    },
+    "homePageAnotherForm": {
+      "notificationCode": {
+        "validated": 1,
+        "notValidated": 2
+      },
+      "resetFormUponSubmit": false,
+      "inputNameToValidate": {
+        "Car brand": {
+          "required": [
+            true,
+            "is required"
+          ]
+        },
+        "Car brandffff": {
+          "required": [
+            true,
+            "is required"
+          ]
+        }
+      }
+    },
+    "checkBoxTest": {
+      "notificationCode": {
+        "validated": 1,
+        "notValidated": 2
+      },
+      "resetFormUponSubmit": false,
+      "inputNameToValidate": {
+        "weapon1": {
+          "checkboxRequired": [
+            true,
+            "at least one weapon should be checked"
+          ]
+        },
+        "weapon2": {
+          "checkboxRequired": [
+            true,
+            "at least one weapon should be checked"
+          ]
+        },
+        "otherWeapons": {
+          "required": [
+            true,
+            "Not really required but ok"
+          ]
+        }
+      }
+    }
+  },
+  "uiNotificationBoxCss": {
     "position": "fixed",
     "zIndex": "1000",
     "left": "0",
@@ -49,20 +111,17 @@
     "width": "100%",
     "margin": "auto",
     "padding": "17px",
-
     "textAlign": "",
     "fontSize": "16px",
     "fontWeight": "bold"
   },
-
-  "uiErrorBoxCss" :
-  {
-    "marginTop" : "10px",
-    "fontWeight" : "normal"
+  "uiErrorBoxCss": {
+    "marginTop": "10px",
+    "fontWeight": "normal"
   },
-  "uiCloseBoxButton" : {
-    "text" : "Close Notification",
-    "marginLeft" : "5px",
+  "uiCloseBoxButton": {
+    "text": "Close Notification",
+    "marginLeft": "5px",
     "cursor": "pointer"
   }
 }

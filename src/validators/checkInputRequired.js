@@ -5,6 +5,7 @@ export class CheckInputRequired{
 
 
     validate(propertyKeyCapitalized, propertyValue, formInputName, formInputValue, propertyErrorText) {
+
         if (propertyValue === true) {
             let regex = /^\s+/;
             if (regex.test(String(formInputValue)) || formInputValue.length === 0) {

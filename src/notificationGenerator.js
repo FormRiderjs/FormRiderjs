@@ -3,49 +3,28 @@ import {CustomError} from "./customError.js";
 
 export class Notification {
 
-    constructor(inputValidationRecap, jsonConfigURL) {
+    constructor(inputValidationRecap, onTheFlyConfigs) {
 
 
         let inputValidationErrorArray = inputValidationRecap[1];
         //terminate process and show uncaught error, anyway...this will happen only if there is previous errors it is done to prevent unnecessary errors to be shown
-        if(inputValidationErrorArray === undefined){
+        if (inputValidationErrorArray === undefined) {
             throw new CustomError("OnTheFly.js ERROR", "Uncaught error");
         }
 
         let inputValidationErrorLength = inputValidationErrorArray.length;
 
         let notificationCode = this.extractNotificationCode(inputValidationRecap[0], inputValidationErrorLength);
-        this.getJsonData(jsonConfigURL)
-            .then((jsonData) => {
-                let uiNotificationBox = this.extractNotificationBoxCss(jsonData["uiNotificationBoxCss"]);
-                let uiErrorBox = this.extractErrorBoxCss(jsonData["uiErrorBoxCss"]);
-                let uiCloseButton = this.extractCloseBoxButton(jsonData["uiCloseBoxButton"], uiNotificationBox);
-                let notificationAssembled = this.notificationAssembler(jsonData["notifications"], notificationCode, inputValidationErrorArray, uiNotificationBox, uiErrorBox, uiCloseButton);
-                let notification = this.uiShowNotification(notificationAssembled);
-                this.closeNotificationManually(uiCloseButton, notification);
-                this.closeNotificationAutomatically(notification, inputValidationErrorLength, 5000);
-                return jsonData;
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+
+        let uiNotificationBox = this.extractNotificationBoxCss(onTheFlyConfigs["uiNotificationBoxCss"]);
+        let uiErrorBox = this.extractErrorBoxCss(onTheFlyConfigs["uiErrorBoxCss"]);
+        let uiCloseButton = this.extractCloseBoxButton(onTheFlyConfigs["uiCloseBoxButton"], uiNotificationBox);
+        let notificationAssembled = this.notificationAssembler(onTheFlyConfigs["notifications"], notificationCode, inputValidationErrorArray, uiNotificationBox, uiErrorBox, uiCloseButton);
+        let notification = this.uiShowNotification(notificationAssembled);
+        this.closeNotificationManually(uiCloseButton, notification);
+        this.closeNotificationAutomatically(notification, inputValidationErrorLength, 5000);
+
     }
-
-    getJsonData(jsonConfigURL) {
-
-        var xhr = new XMLHttpRequest();
-
-        return new Promise(function (resolve, reject) {
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    resolve(JSON.parse(this.responseText));
-                }
-            };
-            xhr.open("GET", jsonConfigURL, true);
-            xhr.send();
-        });
-    }
-
     //not showing the same notification more than one time
     //creating the notification and showing it
     uiShowNotification(notificationAssembled) {
