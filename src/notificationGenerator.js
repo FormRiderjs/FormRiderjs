@@ -5,7 +5,6 @@ export class Notification {
 
     constructor(inputValidationRecap, onTheFlyConfigs) {
 
-
         let inputValidationErrorArray = inputValidationRecap[1];
         //terminate process and show uncaught error, anyway...this will happen only if there is previous errors it is done to prevent unnecessary errors to be shown
         if (inputValidationErrorArray === undefined) {
@@ -101,7 +100,7 @@ export class Notification {
 
         for (let x = 0; x < inputValidationErrorArray.length; x++) {
             let uiError = document.createElement("div");
-            uiError.innerHTML = "<span style='line-height: 125%'>&#8226;</span> " + inputValidationErrorArray[x];
+            uiError.innerHTML = "<span style='line-height: 125%'>&#8226;</span> " + inputValidationErrorArray[x][1];
             uiErrorBox.appendChild(uiError);
         }
 

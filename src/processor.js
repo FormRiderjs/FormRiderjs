@@ -9,12 +9,13 @@ export class Processor {
 
         let elementsToApplyValidationOn = onTheFlyConfigs["elementsToApplyValidationOn"];
 
-        let otfFormName = document.querySelectorAll("[data-otfForm]");
+        let otfForms = document.querySelectorAll("[data-otfForm]");
+
 
         /*      1- detect all otfForms in the page
                 2- check if the data-otfForm is declared in the jsonConfigs file
                 3- if it is declared call the processing function otherwise show an error*/
-        otfFormName.forEach((form) => {
+        otfForms.forEach((form) => {
             form.addEventListener("submit", (event) => {
                 event.preventDefault();
 
@@ -36,7 +37,6 @@ export class Processor {
         2- Block the DOM using setTimeout while validating
         3- when validation is done => show error notification / show confirmation notification + unblock the DOM + submit
         */
-
     processing(otfForm, otfFormNameToProcess, onTheFlyConfigs) {
 
         let postURL = this.getFormAction(otfForm);
@@ -45,22 +45,17 @@ export class Processor {
         let formData = this.getFormDataToKeyValue(otfForm);
         let dataToSubmit = formDataEncoded.join("&");
 
-        // console.log(formDataEncoded); // for submit purpose
 
         //create a new instance of InputValidation in order to validate the input
         let inputValidation = new InputValidation(otfFormNameToProcess, formData, onTheFlyConfigs);
-
-        let that = this;
+        let _this = this;
         let timer = setTimeout(function () {
-            that.sendData(requestMethod, postURL, dataToSubmit);
-            if (inputValidation["validated"] === true) {
 
-                //submit data when form is validated
-                that.sendData(requestMethod, postURL, dataToSubmit);
-
-                console.log(inputValidation["inputValidationRecap"]);
-                new Notification(inputValidation["inputValidationRecap"], onTheFlyConfigs);
+            //check if the error array is empty or not, if it is empty then submit data and then show the notification, if not then do noting and only show the notification
+            if (inputValidation["inputValidationRecap"][1].length === 0) {
+                _this.sendData(requestMethod, postURL, dataToSubmit);
             }
+            new Notification(inputValidation["inputValidationRecap"], onTheFlyConfigs);
             clearTimeout(timer);
         }, 100);
     }
@@ -89,12 +84,21 @@ export class Processor {
             if (elementName !== null) {
 
 
-            //anticipate the validation
+                //anticipate checkbox validation
                 if (element.type === "checkbox") {
                     if (element.checked === false) {
                         elementValue = "otfCheckBoxNoValue";
                     }
                 }
+
+
+                //anticipate radio validation
+                if (element.type === "radio") {
+                    if (element.checked === false) {
+                        elementValue = "otfRadioNoValue";
+                    }
+                }
+
 
                 formData.push(elementName + "=" + elementValue);
             }
@@ -111,6 +115,7 @@ export class Processor {
     getFormAction(element) {
         return element.getAttribute("action");
     }
+
 
 //getting the method attribute from a form
     getFormRequestMethod(element) {

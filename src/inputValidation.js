@@ -6,14 +6,16 @@ export class InputValidation {
         will be pushed to this array and passed to notificationGenerator after  */
         this.inputValidationRecap = [];
         this.validationErrorArray = [];
-
         /* validated is set to true, but in case the validation didnt work
-         it will be set to false in order to return the false statemenet
+         it will be set to false in order to return the false statement
          using the returnValidatedBool() */
         this.validated = true;
 
         this.resetFormUponSubmitValue = false;
 
+        this.hasInCommon = false;
+        this.hasinCommonGroup = [];
+        this.validatedInCommonGroup = [];
 
         //extracting the elementsToApplyValidationOn from json file and passing it to the next then
         let elementToApplyValidationOn = this.extractJsonElementToApplyValidationOn(onTheFlyConfigs, otfFormNameToProcess);
@@ -25,7 +27,7 @@ export class InputValidation {
         this.jsonInputNameToValidate = elementToApplyValidationOn["inputNameToValidate"];
 
 
-       //==================================================================
+        //==================================================================
         //array of arrays where in every array : key is the input and value is the inputs value
         let formKeyValueOfInputValue = [];
         for (let i = 0; i < formData.length; i++) {
@@ -44,8 +46,6 @@ export class InputValidation {
             let jsonInputNameToValidateKey = jsonInputNameToValidateKeys[i];
 
 
-
-
             if (formInputName !== jsonInputNameToValidateKey) {
                 if (jsonInputNameToValidateKey === undefined) {
                     throw new CustomError("OnTheFly.js ERROR", "Unknown data-name" + ' "' + formInputName + '" ' + "not declared in onTheFlyJsonConfig");
@@ -54,57 +54,111 @@ export class InputValidation {
             }
 
 
-
-
+            //propertyKey will give us only the function in string format
             for (let propertyKey in this.jsonInputNameToValidate[formInputName]) {
 
-                let propertyValue = this.jsonInputNameToValidate[formInputName][propertyKey][0];
+                //wantedFunctionValues will give us propertyKey values in an object format !
+                let wantedFunctionValues = this.jsonInputNameToValidate[formInputName][propertyKey];
+                let propertyValue = wantedFunctionValues[0];
+                let propertyErrorText = wantedFunctionValues[1];
 
-                let propertyErrorText = this.jsonInputNameToValidate[formInputName][propertyKey][1];
+                //======================================================================================
+                //get all inCommon from json file => put it in a inCommon array => replace propertyValue by inCommon => send this value  to the concerned function
+                let hasOwnPropertyInCommon = propertyValue.hasOwnProperty("inCommon");
+                //hasInCommon set to true when hasOwnPropertyInCommon set to true
+                if (hasOwnPropertyInCommon) {
+                    propertyValue = [formInputName, propertyValue.inCommon[0]];
+                    this.hasInCommon = true;
+                }
+
+                if (!hasOwnPropertyInCommon) {
+                    this.hasInCommon = false;
+                }
+                //======================================================================================
 
 
-
-
-                //calling the prefix function, this will call functions depending on propertyKey after capitalizing it's first letter
-                this.callFunction(propertyKey, propertyValue, formInputName, formInputValue, propertyErrorText);
+                this.callFunction(this.hasInCommon, propertyKey, propertyValue, formInputName, formInputValue, propertyErrorText);
             }
         }
 
 
-        this.inputValidationRecap.push(this.validationErrorArray);
-        this.returnValidatedBool(this.validationErrorArray);
-        this.resetFormUponSubmit(otfFormNameToProcess, this.resetFormUponSubmitValue, this.validationErrorArray);
-
-
-        return this;
+        window.setTimeout(() => {
+            if (this.hasInCommon === true) {
+                let purifiedValidationErrorArray = this.purifyValidationErrorArray(this.validationErrorArray, this.hasinCommonGroup,this.validatedInCommonGroup);
+                this.inputValidationRecap.push(purifiedValidationErrorArray);
+            }
+            if (this.hasInCommon === false) {
+                this.inputValidationRecap.push(this.validationErrorArray);
+            }
+            this.returnValidatedBool(this.validationErrorArray);
+            this.resetFormUponSubmit(otfFormNameToProcess, this.resetFormUponSubmitValue, this.validationErrorArray);
+            return this;
+        }, 100);
     }
 
 
 //==============================================================================
     // this function will call other functions starting with "checkInput" prefix
-    callFunction(propertyKey, propertyValue, formInputName, formInputValue, propertyErrorText) {
-        // this["checkInput" + propertyKeyCapitalized](propertyKeyCapitalized, propertyValue, formInputName, formInputValue, propertyErrorText);
+    callFunction(hasInCommon, propertyKey, propertyValue, formInputName, formInputValue, propertyErrorText) {
 
+        //TODO maybe creating a new then block instead of the window.setTimeout done previously
         let propertyKeyCapitalized = propertyKey.charAt(0).toUpperCase() + propertyKey.slice(1);
         import ("./validators/checkInput" + propertyKeyCapitalized + ".js")
             .then((validator) => {
                 let usedValidation = new validator["CheckInput" + propertyKeyCapitalized];
+                if (hasInCommon === true) {
+                    this.hasinCommonGroup.push(propertyValue);
+
+                    usedValidation["validateInCommon"](propertyKeyCapitalized, propertyValue, formInputName, formInputValue, propertyErrorText);
+
+                    //when validated
+                    if (usedValidation["inCommonValidatedStatus"] === true) {
+                        this.validatedInCommonGroup.push(propertyValue);
+                    }
+                }
+
+
+                if (hasInCommon === false) {
+                    usedValidation["validate"](propertyKeyCapitalized, propertyValue, formInputName, formInputValue, propertyErrorText);
+                }
+
                 let usedValidationErrorArray = usedValidation.validationErrorArray;
-                usedValidation["validate"](propertyKeyCapitalized, propertyValue, formInputName, formInputValue, propertyErrorText);
-
-
                 //push into errors array only when usedValidationErrorArray is not empty
                 if (usedValidationErrorArray.length !== 0) {
-                    this.validationErrorArray.push(usedValidation.validationErrorArray);
+                    this.validationErrorArray.push(usedValidationErrorArray);
                 }
             })
             .catch((error) => {
                 this.validated = false;
-                throw new CustomError("OnTheFly.js ERROR", "Unknown validator property '"+propertyKey+"' in onTheFlyJsonConfig ");
+                console.log(error);
+                throw new CustomError("OnTheFly.js ERROR", "Unknown validator property '" + propertyKey + "' in onTheFlyJsonConfig ");
             })
+
+
     }
 
 //==============================================================================
+
+    purifyValidationErrorArray(validationErrorArray,hasInCommonGroup,validatedInCommonGroup) {
+        let toBeDeleted = [];
+        for(let i = 0; i<hasInCommonGroup.length; i++){
+            for(let j=0; j<validatedInCommonGroup.length; j++){
+                if(hasInCommonGroup[i][1] === validatedInCommonGroup[j][1] && hasInCommonGroup[i][0] !== validatedInCommonGroup[j][0]){
+                    toBeDeleted.push(hasInCommonGroup[i][0]);
+                }
+            }
+        }
+
+        for (let i=0;i<validationErrorArray.length;i++) {
+            for(let j=0; j<toBeDeleted.length; j++) {
+                if(toBeDeleted[j] === validationErrorArray[i][0]){
+                    validationErrorArray.splice(i,1);
+                }
+            }
+        }
+
+        return validationErrorArray;
+    }
 
 
     //extract the elementsToApplyValidationOn depending on form id, so otfFormNameToProcess should be the same as the formId in json file
@@ -124,7 +178,7 @@ export class InputValidation {
     //resetting form upon submit
     resetFormUponSubmit(otfFormNameToProcess, resetFormUponSubmitValue, errorArray) {
         if (resetFormUponSubmitValue === true && errorArray.length === 0) {
-            document.getElementById(otfFormNameToProcess).reset();
+            document.querySelector("[data-otfForm = " + otfFormNameToProcess + "]").reset();
         }
     }
 
