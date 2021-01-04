@@ -13,8 +13,14 @@ export class InputValidation {
 
         this.resetFormUponSubmitValue = false;
 
-        this.hasInCommon = false;
-        this.hasinCommonGroup = [];
+
+        //for every formInputName, store the inCommonStatus, like true,false,true,true etc..
+        this.hasInCommon = [];
+        //always set to false, changes to true only when there is a inCommon => so purifyErrorValidation could be called
+        this.doesHasInCommon = false;
+        //put here all inCommon groups
+        this.inCommonGroup = [];
+        //put every validated "propertyValue" here, knowing that property values are replaced by the data-name in json configs and the inCommon value
         this.validatedInCommonGroup = [];
 
         //extracting the elementsToApplyValidationOn from json file and passing it to the next then
@@ -38,7 +44,6 @@ export class InputValidation {
 
 
         let jsonInputNameToValidateKeys = Object.keys(elementToApplyValidationOn["inputNameToValidate"]);
-
 
         for (let i = 0; i < formKeyValueOfInputValue.length; i++) {
             let formInputName = formKeyValueOfInputValue[i][0]; //data-name
@@ -66,16 +71,19 @@ export class InputValidation {
                 //get all inCommon from json file => put it in a inCommon array => replace propertyValue by inCommon => send this value  to the concerned function
                 let hasOwnPropertyInCommon = propertyValue.hasOwnProperty("inCommon");
                 //hasInCommon set to true when hasOwnPropertyInCommon set to true
+
+
                 if (hasOwnPropertyInCommon) {
+                    //when there is an inCommon, replace property value by an array of formInputName and the inCommon value
                     propertyValue = [formInputName, propertyValue.inCommon[0]];
-                    this.hasInCommon = true;
+                    this.hasInCommon.push(true);
+                    this.doesHasInCommon = true;
                 }
 
                 if (!hasOwnPropertyInCommon) {
-                    this.hasInCommon = false;
+                    this.hasInCommon.push(false);
                 }
                 //======================================================================================
-
 
                 this.callFunction(this.hasInCommon, propertyKey, propertyValue, formInputName, formInputValue, propertyErrorText);
             }
@@ -83,11 +91,12 @@ export class InputValidation {
 
 
         window.setTimeout(() => {
-            if (this.hasInCommon === true) {
-                let purifiedValidationErrorArray = this.purifyValidationErrorArray(this.validationErrorArray, this.hasinCommonGroup,this.validatedInCommonGroup);
+            //when there is an inCommon => purify error array, otherwise do the normal procedure
+            if (this.doesHasInCommon === true) {
+                let purifiedValidationErrorArray = this.purifyValidationErrorArray(this.validationErrorArray, this.inCommonGroup, this.validatedInCommonGroup);
                 this.inputValidationRecap.push(purifiedValidationErrorArray);
             }
-            if (this.hasInCommon === false) {
+            if (this.doesHasInCommon === false) {
                 this.inputValidationRecap.push(this.validationErrorArray);
             }
             this.returnValidatedBool(this.validationErrorArray);
@@ -101,14 +110,15 @@ export class InputValidation {
     // this function will call other functions starting with "checkInput" prefix
     callFunction(hasInCommon, propertyKey, propertyValue, formInputName, formInputValue, propertyErrorText) {
 
-        //TODO maybe creating a new then block instead of the window.setTimeout done previously
+        //only detecting the last element because we are getting an array and the last element of it is the element we want to check
+        let lastElementInHasInCommon = hasInCommon.slice(-1)[0];
+
         let propertyKeyCapitalized = propertyKey.charAt(0).toUpperCase() + propertyKey.slice(1);
         import ("./validators/checkInput" + propertyKeyCapitalized + ".js")
             .then((validator) => {
                 let usedValidation = new validator["CheckInput" + propertyKeyCapitalized];
-                if (hasInCommon === true) {
-                    this.hasinCommonGroup.push(propertyValue);
-
+                if (lastElementInHasInCommon === true) {
+                    this.inCommonGroup.push(propertyValue);
                     usedValidation["validateInCommon"](propertyKeyCapitalized, propertyValue, formInputName, formInputValue, propertyErrorText);
 
                     //when validated
@@ -118,7 +128,7 @@ export class InputValidation {
                 }
 
 
-                if (hasInCommon === false) {
+                if (lastElementInHasInCommon === false) {
                     usedValidation["validate"](propertyKeyCapitalized, propertyValue, formInputName, formInputValue, propertyErrorText);
                 }
 
@@ -133,26 +143,29 @@ export class InputValidation {
                 console.log(error);
                 throw new CustomError("OnTheFly.js ERROR", "Unknown validator property '" + propertyKey + "' in onTheFlyJsonConfig ");
             })
-
-
     }
 
 //==============================================================================
 
-    purifyValidationErrorArray(validationErrorArray,hasInCommonGroup,validatedInCommonGroup) {
-        let toBeDeleted = [];
-        for(let i = 0; i<hasInCommonGroup.length; i++){
-            for(let j=0; j<validatedInCommonGroup.length; j++){
-                if(hasInCommonGroup[i][1] === validatedInCommonGroup[j][1] && hasInCommonGroup[i][0] !== validatedInCommonGroup[j][0]){
-                    toBeDeleted.push(hasInCommonGroup[i][0]);
-                }
-            }
+    purifyValidationErrorArray(validationErrorArray, inCommonGroup, validatedInCommonGroup) {
+        let validatedInCommonRepetition = [];
+
+
+        //the  validated inCommon name
+        let validatedInCommonValue = [];
+
+
+        for (let i = 0; i < validatedInCommonGroup.length; i++) {
+            validatedInCommonValue.push(validatedInCommonGroup[i][1]);
         }
 
-        for (let i=0;i<validationErrorArray.length;i++) {
-            for(let j=0; j<toBeDeleted.length; j++) {
-                if(toBeDeleted[j] === validationErrorArray[i][0]){
-                    validationErrorArray.splice(i,1);
+
+        let noDuplicateValidatedInCommonValue = [...new Set(validatedInCommonValue)];
+        for(let i = 0; i<noDuplicateValidatedInCommonValue.length; i++){
+            for(let j=0; j<validationErrorArray.length; j++){
+                if(validationErrorArray[j][0][1] === noDuplicateValidatedInCommonValue[i]){
+                    validationErrorArray.splice(j,1);
+                    j--;
                 }
             }
         }

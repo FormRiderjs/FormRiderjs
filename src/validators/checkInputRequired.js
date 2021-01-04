@@ -6,17 +6,18 @@ export class CheckInputRequired {
 
 
     validateInCommon(propertyKeyCapitalized, propertyValue, formInputName, formInputValue, propertyErrorText) {
-
         if (typeof (propertyValue) === "object") {
+
             let regex = /^\s+/;
             if (regex.test(String(formInputValue)) || formInputValue.length === 0) {
-                this.validationErrorArray.push(formInputName, formInputName + " " + propertyErrorText);
-                this.inCommonValidatedStatus = false;
-            } if (typeof (formInputValue) === "undefined") {
-                this.validationErrorArray.push(formInputName, formInputName + " " + propertyErrorText);
+                this.validationErrorArray.push(propertyValue, formInputName + " " + propertyErrorText);
                 this.inCommonValidatedStatus = false;
             }
-            if(!regex.test(String(formInputValue)) && formInputValue.length !== 0){
+            if (typeof (formInputValue) === "undefined") {
+                this.validationErrorArray.push(propertyValue, formInputName + " " + propertyErrorText);
+                this.inCommonValidatedStatus = false;
+            }
+            if (!regex.test(String(formInputValue)) && formInputValue.length !== 0) {
                 this.inCommonValidatedStatus = true;
             }
         }

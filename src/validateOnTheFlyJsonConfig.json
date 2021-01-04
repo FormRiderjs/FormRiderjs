@@ -63,63 +63,106 @@
         }
       }
     },
-
-
-    "radioTest": {
+    "computerWishes": {
       "notificationCode": {
-        "validated": 3,
-        "notValidated": 4
+        "validated": 1,
+        "notValidated": 2
       },
       "resetFormUponSubmit": false,
       "inputNameToValidate": {
-        "drone1": {
+        "dell": {
           "radioRequired": [
             {
               "inCommon": [
-                "drone"
+                "computerBrand"
               ]
             },
-            "at least one weapon should be checked"
+            "is required"
           ]
         },
-        "randomName": {
+        "anotherBrand": {
+          "required": [
+            true,
+            "is required"
+          ]
+        },
+        "lenovo": {
+          "radioRequired": [
+            {
+              "inCommon": [
+                "computerBrand"
+              ]
+            },
+            "is required"
+          ]
+        }
+      }
+    },
+    "wishes": {
+      "notificationCode": {
+        "validated": 1,
+        "notValidated": 2
+      },
+      "resetFormUponSubmit": false,
+      "inputNameToValidate": {
+        "car": {
+          "checkboxRequired": [
+            {
+              "inCommon": [
+                "wish"
+              ]
+            },
+            "at least one check box should be checked"
+          ]
+        },
+        "home": {
+          "checkboxRequired": [
+            {
+              "inCommon": [
+                "wish"
+              ]
+            },
+            "required"
+          ]
+        },
+        "computer": {
+          "checkboxRequired": [
+            {
+              "inCommon": [
+                "wish"
+              ]
+            },
+            "at least one check box should be checked"
+          ]
+        },
+        "guitar": {
+          "checkboxRequired": [
+            {
+              "inCommon": [
+                "wish"
+              ]
+            },
+            "at least one check box should be checked"
+          ]
+        },
+        "screen": {
+          "checkboxRequired": [
+            {
+              "inCommon": [
+                "wish"
+              ]
+            },
+            "at least one check box should be checked"
+          ]
+        },
+        "another": {
           "required": [
             {
               "inCommon": [
-                "drone"
+                "wish"
               ]
             },
-            "Required"
-          ]
-        },
-        "drone2": {
-          "radioRequired": [
-            {
-              "inCommon": [
-                "drone"
-              ]
-            },
-            "at least one weapon should be checked"
-          ]
-        },
-        "droneColorGreen": {
-          "radioRequired": [
-            {
-              "inCommon": [
-                "droneColor"
-              ]
-            },
-            "Please select a drone color"
-          ]
-        },
-        "droneColorBlue": {
-          "radioRequired": [
-            {
-              "inCommon": [
-                "droneColor"
-              ]
-            },
-            "Please select a drone color"
+            "at least one check box should be checked"
           ]
         }
       }

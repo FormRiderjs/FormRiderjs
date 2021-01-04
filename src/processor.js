@@ -77,7 +77,6 @@ export class Processor {
         for (let i = 0; i < form.elements.length; i++) {
             let element = form.elements[i];
 
-
             //HTML custom attribute
             let elementName = element.getAttribute("data-name");
             let elementValue = element.value;
