@@ -11,7 +11,7 @@ export class CheckInputRadioRequired {
     validateInCommon(propertyKeyCapitalized, propertyValue, formInputName, formInputValue, propertyErrorText) {
 
         if (formInputValue === "otfRadioNoValue") {
-            this.validationErrorArray.push(formInputName,formInputName + " " + propertyErrorText);
+            this.validationErrorArray.push(propertyValue,formInputName + " " + propertyErrorText);
             this.inCommonValidatedStatus = false;
         }
         if (formInputValue !== "otfRadioNoValue") {

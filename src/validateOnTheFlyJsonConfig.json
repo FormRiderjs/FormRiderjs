@@ -74,6 +74,7 @@
           "radioRequired": [
             {
               "inCommon": [
+                1,
                 "computerBrand"
               ]
             },
@@ -82,7 +83,12 @@
         },
         "anotherBrand": {
           "required": [
-            true,
+            {
+              "inCommon" : [
+                1,
+                "computerBrand"
+              ]
+            },
             "is required"
           ]
         },
@@ -90,6 +96,7 @@
           "radioRequired": [
             {
               "inCommon": [
+                1,
                 "computerBrand"
               ]
             },
@@ -109,6 +116,11 @@
           "checkboxRequired": [
             {
               "inCommon": [
+                {
+                  "name" : "wish",
+                  "minimumChecked" : 0,
+                  "maximum" : 1
+                },
                 "wish"
               ]
             },
@@ -119,6 +131,7 @@
           "checkboxRequired": [
             {
               "inCommon": [
+                0,
                 "wish"
               ]
             },
@@ -129,6 +142,7 @@
           "checkboxRequired": [
             {
               "inCommon": [
+                0,
                 "wish"
               ]
             },
@@ -139,6 +153,7 @@
           "checkboxRequired": [
             {
               "inCommon": [
+                0,
                 "wish"
               ]
             },
@@ -149,20 +164,127 @@
           "checkboxRequired": [
             {
               "inCommon": [
+                0,
                 "wish"
               ]
             },
             "at least one check box should be checked"
           ]
         },
-        "another": {
-          "required": [
+        "printer": {
+          "checkboxRequired": [
             {
               "inCommon": [
+                0,
                 "wish"
               ]
             },
             "at least one check box should be checked"
+          ]
+        },
+        "table": {
+          "checkboxRequired": [
+            {
+              "inCommon": [
+                0,
+                "wish"
+              ]
+            },
+            "at least one check box should be checked"
+          ]
+        },
+        "phone": {
+          "checkboxRequired": [
+            {
+              "inCommon": [
+                0,
+                "wish"
+              ]
+            },
+            "at least one check box should be checked"
+          ]
+        },
+        "anotherWish": {
+          "required": [
+            {
+              "inCommon": [
+                0,
+                "wish"
+              ]
+            },
+            "you should check one wish or type in another one"
+          ]
+        },
+        "sirage": {
+          "checkboxRequired": [
+            {
+              "inCommon": [
+                1,
+                "name"
+              ]
+            },
+            "at least one name should be checked"
+          ]
+        },
+        "reham": {
+          "checkboxRequired": [
+            {
+              "inCommon": [
+                1,
+                "name"
+              ]
+            },
+            "at least one name should be checked"
+          ]
+        },
+        "sadek": {
+          "checkboxRequired": [
+            {
+              "inCommon": [
+                1,
+                "name"
+              ]
+            },
+            "at least one name should be checked"
+          ]
+        },
+        "obab": {
+          "checkboxRequired": [
+            {
+              "inCommon": [
+                1,
+                "name"
+              ]
+            },
+            "at least one name should be checked"
+          ]
+        },
+        "mohamed": {
+          "checkboxRequired": [
+            {
+              "inCommon": [
+                1,
+                "name"
+              ]
+            },
+            "at least one name should be checked"
+          ]
+        },
+        "ghadah": {
+          "checkboxRequired": [
+            {
+              "inCommon": [
+                1,
+                "name"
+              ]
+            },
+            "at least one name should be checked"
+          ]
+        },
+        "anotherName": {
+          "required": [
+            true,
+            "is required if no checkbox are checked"
           ]
         }
       }

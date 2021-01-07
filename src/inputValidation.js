@@ -75,7 +75,7 @@ export class InputValidation {
 
                 if (hasOwnPropertyInCommon) {
                     //when there is an inCommon, replace property value by an array of formInputName and the inCommon value
-                    propertyValue = [formInputName, propertyValue.inCommon[0]];
+                    propertyValue = [formInputName, propertyValue.inCommon[0], propertyValue.inCommon[1]];
                     this.hasInCommon.push(true);
                     this.doesHasInCommon = true;
                 }
@@ -88,7 +88,6 @@ export class InputValidation {
                 this.callFunction(this.hasInCommon, propertyKey, propertyValue, formInputName, formInputValue, propertyErrorText);
             }
         }
-
 
         window.setTimeout(() => {
             //when there is an inCommon => purify error array, otherwise do the normal procedure
@@ -148,27 +147,49 @@ export class InputValidation {
 //==============================================================================
 
     purifyValidationErrorArray(validationErrorArray, inCommonGroup, validatedInCommonGroup) {
-        let validatedInCommonRepetition = [];
-
-
         //the  validated inCommon name
         let validatedInCommonValue = [];
 
 
+
+
+        //repetition that should happen
+        let mustRepetition = [];
+
+        //Repetition that happened
+        let happenedRepetition = [];
+
+
+        let repetitionNumber;
+
         for (let i = 0; i < validatedInCommonGroup.length; i++) {
-            validatedInCommonValue.push(validatedInCommonGroup[i][1]);
+            validatedInCommonValue.push(validatedInCommonGroup[i][2]);
+
+
+            console.log(validatedInCommonGroup[i]);
         }
 
 
+
+
+        for(let i=0; i<validatedInCommonValue.length;i++){
+
+        }
+
+
+
         let noDuplicateValidatedInCommonValue = [...new Set(validatedInCommonValue)];
-        for(let i = 0; i<noDuplicateValidatedInCommonValue.length; i++){
-            for(let j=0; j<validationErrorArray.length; j++){
-                if(validationErrorArray[j][0][1] === noDuplicateValidatedInCommonValue[i]){
-                    validationErrorArray.splice(j,1);
+
+        for (let i = 0; i < noDuplicateValidatedInCommonValue.length; i++) {
+            for (let j = 0; j < validationErrorArray.length; j++) {
+                //when inCommon value is equal to the noDuplicateValidatedInCommonValue that being iterated then splice all those errors
+                if (validationErrorArray[j][0][2] === noDuplicateValidatedInCommonValue[i]) {
+                    validationErrorArray.splice(j, 1);
                     j--;
                 }
             }
         }
+
 
         return validationErrorArray;
     }
