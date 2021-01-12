@@ -23,14 +23,17 @@ export class InputValidation {
         //put every validated "propertyValue" here, knowing that property values are replaced by the data-name in json configs and the inCommon value
         this.validatedInCommonGroup = [];
 
+
         //extracting the elementsToApplyValidationOn from json file and passing it to the next then
         let elementToApplyValidationOn = this.extractJsonElementToApplyValidationOn(onTheFlyConfigs, otfFormNameToProcess);
 
         this.resetFormUponSubmitValue = elementToApplyValidationOn.resetFormUponSubmit;
-
         this.extractNotificationCode(elementToApplyValidationOn);
 
-        this.jsonInputNameToValidate = elementToApplyValidationOn["inputNameToValidate"];
+        //get the inCommonCorrespondence arrays located in the json file
+        this.inCommonCorrespondence = elementToApplyValidationOn.inCommonCorrespondence;
+
+        this.jsonInputNameToValidate = elementToApplyValidationOn.inputNameToValidate;
 
 
         //==================================================================
@@ -74,6 +77,7 @@ export class InputValidation {
 
 
                 if (hasOwnPropertyInCommon) {
+
                     //when there is an inCommon, replace property value by an array of formInputName and the inCommon value
                     propertyValue = [formInputName, propertyValue.inCommon[0], propertyValue.inCommon[1]];
                     this.hasInCommon.push(true);
@@ -92,7 +96,7 @@ export class InputValidation {
         window.setTimeout(() => {
             //when there is an inCommon => purify error array, otherwise do the normal procedure
             if (this.doesHasInCommon === true) {
-                let purifiedValidationErrorArray = this.purifyValidationErrorArray(this.validationErrorArray, this.inCommonGroup, this.validatedInCommonGroup);
+                let purifiedValidationErrorArray = this.purifyValidationErrorArray(this.validationErrorArray, this.inCommonGroup, this.validatedInCommonGroup, this.inCommonCorrespondence);
                 this.inputValidationRecap.push(purifiedValidationErrorArray);
             }
             if (this.doesHasInCommon === false) {
@@ -146,36 +150,46 @@ export class InputValidation {
 
 //==============================================================================
 
-    purifyValidationErrorArray(validationErrorArray, inCommonGroup, validatedInCommonGroup) {
+    purifyValidationErrorArray(validationErrorArray, inCommonGroup, validatedInCommonGroup, inCommonCorrespondence) {
+
         //the  validated inCommon name
         let validatedInCommonValue = [];
-
-
-
-
-        //repetition that should happen
-        let mustRepetition = [];
-
-        //Repetition that happened
-        let happenedRepetition = [];
-
-
-        let repetitionNumber;
-
+        let sumValidatedInCommonPointsGiven = [[undefined, 0]];
+        let indexToBeFilled = 0;
         for (let i = 0; i < validatedInCommonGroup.length; i++) {
-            validatedInCommonValue.push(validatedInCommonGroup[i][2]);
+            let validatedInCommonName = validatedInCommonGroup[i][1].name;
+            let inCommonPointsGiven = validatedInCommonGroup[i][1].pointsGiven;
+            let validatedInCommonNextName
 
+            if (i !== validatedInCommonGroup.length) {
+                if (validatedInCommonGroup[i + 1] !== undefined) {
 
-            console.log(validatedInCommonGroup[i]);
+                    validatedInCommonNextName = validatedInCommonGroup[i + 1][1].name;
+
+                    if (validatedInCommonName === validatedInCommonNextName) {
+                        sumValidatedInCommonPointsGiven[indexToBeFilled][0] = validatedInCommonName;
+                        sumValidatedInCommonPointsGiven[indexToBeFilled][1] += inCommonPointsGiven;
+                    }
+                    if (validatedInCommonName !== validatedInCommonNextName) {
+                        sumValidatedInCommonPointsGiven[indexToBeFilled][0] = validatedInCommonName;
+                        sumValidatedInCommonPointsGiven[indexToBeFilled][1] += inCommonPointsGiven;
+
+                        let array = [undefined, 0];
+                        sumValidatedInCommonPointsGiven.push(array);
+                        indexToBeFilled++;
+                    }
+                }
+
+                if (validatedInCommonGroup[i + 1] === undefined) {
+                    sumValidatedInCommonPointsGiven[indexToBeFilled][0] = validatedInCommonName;
+                    sumValidatedInCommonPointsGiven[indexToBeFilled][1] += inCommonPointsGiven;
+                }
+            }
         }
 
 
 
-
-        for(let i=0; i<validatedInCommonValue.length;i++){
-
-        }
-
+        console.log(sumValidatedInCommonPointsGiven);
 
 
         let noDuplicateValidatedInCommonValue = [...new Set(validatedInCommonValue)];
@@ -183,7 +197,7 @@ export class InputValidation {
         for (let i = 0; i < noDuplicateValidatedInCommonValue.length; i++) {
             for (let j = 0; j < validationErrorArray.length; j++) {
                 //when inCommon value is equal to the noDuplicateValidatedInCommonValue that being iterated then splice all those errors
-                if (validationErrorArray[j][0][2] === noDuplicateValidatedInCommonValue[i]) {
+                if (validationErrorArray[j][0][1].name === noDuplicateValidatedInCommonValue[i]) {
                     validationErrorArray.splice(j, 1);
                     j--;
                 }

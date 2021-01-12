@@ -84,7 +84,7 @@
         "anotherBrand": {
           "required": [
             {
-              "inCommon" : [
+              "inCommon": [
                 1,
                 "computerBrand"
               ]
@@ -111,17 +111,25 @@
         "notValidated": 2
       },
       "resetFormUponSubmit": false,
+      "inCommonCorrespondence": [
+        [
+          "wish",
+          2
+        ],
+        [
+          "name",
+          1
+        ]
+      ],
       "inputNameToValidate": {
         "car": {
           "checkboxRequired": [
             {
               "inCommon": [
                 {
-                  "name" : "wish",
-                  "minimumChecked" : 0,
-                  "maximum" : 1
-                },
-                "wish"
+                  "name": "wish",
+                  "pointsGiven": 2
+                }
               ]
             },
             "at least one check box should be checked"
@@ -131,8 +139,10 @@
           "checkboxRequired": [
             {
               "inCommon": [
-                0,
-                "wish"
+                {
+                  "name": "wish",
+                  "pointsGiven": 1
+                }
               ]
             },
             "required"
@@ -142,8 +152,10 @@
           "checkboxRequired": [
             {
               "inCommon": [
-                0,
-                "wish"
+                {
+                  "name": "wish",
+                  "pointsGiven": 2
+                }
               ]
             },
             "at least one check box should be checked"
@@ -153,8 +165,10 @@
           "checkboxRequired": [
             {
               "inCommon": [
-                0,
-                "wish"
+                {
+                  "name": "wish",
+                  "pointsGiven": 1
+                }
               ]
             },
             "at least one check box should be checked"
@@ -164,8 +178,10 @@
           "checkboxRequired": [
             {
               "inCommon": [
-                0,
-                "wish"
+                {
+                  "name": "wish",
+                  "pointsGiven": 2
+                }
               ]
             },
             "at least one check box should be checked"
@@ -175,8 +191,10 @@
           "checkboxRequired": [
             {
               "inCommon": [
-                0,
-                "wish"
+                {
+                  "name": "wish",
+                  "pointsGiven": 2
+                }
               ]
             },
             "at least one check box should be checked"
@@ -186,8 +204,10 @@
           "checkboxRequired": [
             {
               "inCommon": [
-                0,
-                "wish"
+                {
+                  "name": "wish",
+                  "pointsGiven": 0
+                }
               ]
             },
             "at least one check box should be checked"
@@ -197,8 +217,10 @@
           "checkboxRequired": [
             {
               "inCommon": [
-                0,
-                "wish"
+                {
+                  "name": "wish",
+                  "pointsGiven": 0
+                }
               ]
             },
             "at least one check box should be checked"
@@ -208,8 +230,10 @@
           "required": [
             {
               "inCommon": [
-                0,
-                "wish"
+                {
+                  "name": "wish",
+                  "pointsGiven": 2
+                }
               ]
             },
             "you should check one wish or type in another one"
@@ -219,8 +243,10 @@
           "checkboxRequired": [
             {
               "inCommon": [
-                1,
-                "name"
+                {
+                  "name": "name",
+                  "pointsGiven": 1
+                }
               ]
             },
             "at least one name should be checked"
@@ -230,8 +256,10 @@
           "checkboxRequired": [
             {
               "inCommon": [
-                1,
-                "name"
+                {
+                  "name": "name",
+                  "pointsGiven": 1
+                }
               ]
             },
             "at least one name should be checked"
@@ -241,8 +269,10 @@
           "checkboxRequired": [
             {
               "inCommon": [
-                1,
-                "name"
+                {
+                  "name": "name",
+                  "pointsGiven": 1
+                }
               ]
             },
             "at least one name should be checked"
@@ -252,8 +282,10 @@
           "checkboxRequired": [
             {
               "inCommon": [
-                1,
-                "name"
+                {
+                  "name": "name",
+                  "pointsGiven": 1
+                }
               ]
             },
             "at least one name should be checked"
@@ -263,8 +295,10 @@
           "checkboxRequired": [
             {
               "inCommon": [
-                1,
-                "name"
+                {
+                  "name": "name",
+                  "pointsGiven": 1
+                }
               ]
             },
             "at least one name should be checked"
@@ -274,8 +308,10 @@
           "checkboxRequired": [
             {
               "inCommon": [
-                1,
-                "name"
+                {
+                  "name": "name",
+                  "pointsGiven": 1
+                }
               ]
             },
             "at least one name should be checked"
