@@ -15,14 +15,15 @@ export class CheckInputRadioRequired {
             this.inCommonValidatedStatus = false;
         }
         if (formInputValue !== "otfRadioNoValue") {
+            //we pushing even when validated because otherwise when checking all checkboxes we will get an empty validation error array and it wont get purified later, so inCommonGivenPoints wont even get noticed
+            this.validationErrorArray.push(propertyValue,formInputName + " " + propertyErrorText);
             this.inCommonValidatedStatus = true;
         }
     }
 
-/*    validate(propertyKeyCapitalized, propertyValue, formInputName, formInputValue, propertyErrorText) {
+    validate(propertyKeyCapitalized, propertyValue, formInputName, formInputValue, propertyErrorText) {
         if (formInputValue === "otfRadioNoValue") {
-            this.validationErrorArray.push(formInputName + " " + propertyErrorText);
-            this.updatedInCommon.push(propertyValue[0]);
+            this.validationErrorArray.push(formInputName, formInputName + " " + propertyErrorText);
         }
-    }*/
+    }
 }

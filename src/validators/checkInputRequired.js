@@ -18,6 +18,8 @@ export class CheckInputRequired {
                 this.inCommonValidatedStatus = false;
             }
             if (!regex.test(String(formInputValue)) && formInputValue.length !== 0) {
+                //we pushing even when validated because otherwise when checking all checkboxes we will get an empty validation error array and it wont get purified later, so inCommonGivenPoints wont even get noticed
+                this.validationErrorArray.push(propertyValue,formInputName + " " + propertyErrorText);
                 this.inCommonValidatedStatus = true;
             }
         }

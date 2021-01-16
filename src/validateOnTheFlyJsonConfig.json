@@ -69,39 +69,46 @@
         "notValidated": 2
       },
       "resetFormUponSubmit": false,
+      "inCommonCorrespondence": [
+        {
+          "name": "calledByPreference",
+          "neededPointsToValidate": 1
+        }
+      ],
       "inputNameToValidate": {
-        "dell": {
+        "firstName": {
           "radioRequired": [
             {
               "inCommon": [
-                1,
-                "computerBrand"
+                {
+                  "name": "calledByPreference",
+                  "pointsGiven": 1
+                }
               ]
             },
-            "is required"
+            "please chose fist name as a preference"
           ]
         },
-        "anotherBrand": {
+        "otherPreference": {
+
           "required": [
-            {
-              "inCommon": [
-                1,
-                "computerBrand"
-              ]
-            },
-            "is required"
+            true,
+            "please type another as a preference"
           ]
         },
-        "lenovo": {
+        "lastName": {
           "radioRequired": [
             {
               "inCommon": [
-                1,
-                "computerBrand"
+                {
+                  "name": "calledByPreference",
+                  "pointsGiven": 1
+                }
               ]
             },
-            "is required"
+            "please chose last name as a preference"
           ]
+
         }
       }
     },
@@ -112,14 +119,14 @@
       },
       "resetFormUponSubmit": false,
       "inCommonCorrespondence": [
-        [
-          "wish",
-          2
-        ],
-        [
-          "name",
-          1
-        ]
+        {
+          "name": "wish",
+          "neededPointsToValidate": 2
+        },
+        {
+          "name": "name",
+          "neededPointsToValidate": 1
+        }
       ],
       "inputNameToValidate": {
         "car": {
@@ -132,7 +139,7 @@
                 }
               ]
             },
-            "at least one check box should be checked"
+            "at least one check bo x should be checked"
           ]
         },
         "home": {
@@ -249,7 +256,7 @@
                 }
               ]
             },
-            "at least one name should be checked"
+            "You should chose 1 name or fill (Another name)"
           ]
         },
         "reham": {
@@ -262,7 +269,7 @@
                 }
               ]
             },
-            "at least one name should be checked"
+            "You should chose 1 name or fill (Another name)"
           ]
         },
         "sadek": {
@@ -275,7 +282,7 @@
                 }
               ]
             },
-            "at least one name should be checked"
+            "You should chose 1 name or fill (Another name)"
           ]
         },
         "obab": {
@@ -288,7 +295,7 @@
                 }
               ]
             },
-            "at least one name should be checked"
+            "You should chose 1 name or fill (Another name)"
           ]
         },
         "mohamed": {
@@ -301,7 +308,7 @@
                 }
               ]
             },
-            "at least one name should be checked"
+            "You should chose 1 name or fill (Another name)"
           ]
         },
         "ghadah": {
@@ -314,7 +321,7 @@
                 }
               ]
             },
-            "at least one name should be checked"
+            "You should chose 1 name or fill (Another name)"
           ]
         },
         "anotherName": {

@@ -18,22 +18,20 @@ export class InputValidation {
         this.hasInCommon = [];
         //always set to false, changes to true only when there is a inCommon => so purifyErrorValidation could be called
         this.doesHasInCommon = false;
-        //put here all inCommon groups
-        this.inCommonGroup = [];
+
         //put every validated "propertyValue" here, knowing that property values are replaced by the data-name in json configs and the inCommon value
         this.validatedInCommonGroup = [];
 
 
         //extracting the elementsToApplyValidationOn from json file and passing it to the next then
         let elementToApplyValidationOn = this.extractJsonElementToApplyValidationOn(onTheFlyConfigs, otfFormNameToProcess);
+        this.jsonInputNameToValidate = elementToApplyValidationOn.inputNameToValidate;
 
         this.resetFormUponSubmitValue = elementToApplyValidationOn.resetFormUponSubmit;
         this.extractNotificationCode(elementToApplyValidationOn);
 
         //get the inCommonCorrespondence arrays located in the json file
         this.inCommonCorrespondence = elementToApplyValidationOn.inCommonCorrespondence;
-
-        this.jsonInputNameToValidate = elementToApplyValidationOn.inputNameToValidate;
 
 
         //==================================================================
@@ -46,12 +44,14 @@ export class InputValidation {
         //==================================================================
 
 
+        //only get inputNameToValidate from json configs
         let jsonInputNameToValidateKeys = Object.keys(elementToApplyValidationOn["inputNameToValidate"]);
+
 
         for (let i = 0; i < formKeyValueOfInputValue.length; i++) {
             let formInputName = formKeyValueOfInputValue[i][0]; //data-name
             let formInputValue = formKeyValueOfInputValue[i][1]; //data-value
-            let jsonInputNameToValidateKey = jsonInputNameToValidateKeys[i];
+            let jsonInputNameToValidateKey = jsonInputNameToValidateKeys[i]; //indicated inputNameToValidate in json configs
 
 
             if (formInputName !== jsonInputNameToValidateKey) {
@@ -73,13 +73,12 @@ export class InputValidation {
                 //======================================================================================
                 //get all inCommon from json file => put it in a inCommon array => replace propertyValue by inCommon => send this value  to the concerned function
                 let hasOwnPropertyInCommon = propertyValue.hasOwnProperty("inCommon");
-                //hasInCommon set to true when hasOwnPropertyInCommon set to true
 
 
+                //for every formInputName in json configs check if it has an inCommon, if it does then set doesHasInCommon to true and tell there is an inCommon here
                 if (hasOwnPropertyInCommon) {
-
                     //when there is an inCommon, replace property value by an array of formInputName and the inCommon value
-                    propertyValue = [formInputName, propertyValue.inCommon[0], propertyValue.inCommon[1]];
+                    propertyValue = [formInputName, propertyValue.inCommon[0]];
                     this.hasInCommon.push(true);
                     this.doesHasInCommon = true;
                 }
@@ -93,10 +92,11 @@ export class InputValidation {
             }
         }
 
+
         window.setTimeout(() => {
             //when there is an inCommon => purify error array, otherwise do the normal procedure
             if (this.doesHasInCommon === true) {
-                let purifiedValidationErrorArray = this.purifyValidationErrorArray(this.validationErrorArray, this.inCommonGroup, this.validatedInCommonGroup, this.inCommonCorrespondence);
+                let purifiedValidationErrorArray = this.purifyValidationErrorArray(this.validationErrorArray, this.validatedInCommonGroup, this.inCommonCorrespondence);
                 this.inputValidationRecap.push(purifiedValidationErrorArray);
             }
             if (this.doesHasInCommon === false) {
@@ -116,12 +116,13 @@ export class InputValidation {
         //only detecting the last element because we are getting an array and the last element of it is the element we want to check
         let lastElementInHasInCommon = hasInCommon.slice(-1)[0];
 
+        //Capitalize first letter of the property key
         let propertyKeyCapitalized = propertyKey.charAt(0).toUpperCase() + propertyKey.slice(1);
+
         import ("./validators/checkInput" + propertyKeyCapitalized + ".js")
             .then((validator) => {
                 let usedValidation = new validator["CheckInput" + propertyKeyCapitalized];
                 if (lastElementInHasInCommon === true) {
-                    this.inCommonGroup.push(propertyValue);
                     usedValidation["validateInCommon"](propertyKeyCapitalized, propertyValue, formInputName, formInputValue, propertyErrorText);
 
                     //when validated
@@ -135,11 +136,13 @@ export class InputValidation {
                     usedValidation["validate"](propertyKeyCapitalized, propertyValue, formInputName, formInputValue, propertyErrorText);
                 }
 
+
                 let usedValidationErrorArray = usedValidation.validationErrorArray;
                 //push into errors array only when usedValidationErrorArray is not empty
                 if (usedValidationErrorArray.length !== 0) {
                     this.validationErrorArray.push(usedValidationErrorArray);
                 }
+
             })
             .catch((error) => {
                 this.validated = false;
@@ -150,17 +153,18 @@ export class InputValidation {
 
 //==============================================================================
 
-    purifyValidationErrorArray(validationErrorArray, inCommonGroup, validatedInCommonGroup, inCommonCorrespondence) {
+    purifyValidationErrorArray(validationErrorArray, validatedInCommonGroup, inCommonCorrespondence) {
 
-        //the  validated inCommon name
-        let validatedInCommonValue = [];
-        let sumValidatedInCommonPointsGiven = [[undefined, 0]];
+        //for every input, the inCommon name will be put in [0], the sum of givenPoints will be put in [1], false will be replace by true if the inCommon is validated otherwise it well be kept false
+        let sumValidatedInCommonPointsGiven = [[undefined, 0, false]];
+
         let indexToBeFilled = 0;
+        console.log(validatedInCommonGroup);
+
         for (let i = 0; i < validatedInCommonGroup.length; i++) {
             let validatedInCommonName = validatedInCommonGroup[i][1].name;
             let inCommonPointsGiven = validatedInCommonGroup[i][1].pointsGiven;
             let validatedInCommonNextName
-
             if (i !== validatedInCommonGroup.length) {
                 if (validatedInCommonGroup[i + 1] !== undefined) {
 
@@ -174,7 +178,7 @@ export class InputValidation {
                         sumValidatedInCommonPointsGiven[indexToBeFilled][0] = validatedInCommonName;
                         sumValidatedInCommonPointsGiven[indexToBeFilled][1] += inCommonPointsGiven;
 
-                        let array = [undefined, 0];
+                        let array = [undefined, 0, false];
                         sumValidatedInCommonPointsGiven.push(array);
                         indexToBeFilled++;
                     }
@@ -189,21 +193,32 @@ export class InputValidation {
 
 
 
-        console.log(sumValidatedInCommonPointsGiven);
-
-
-        let noDuplicateValidatedInCommonValue = [...new Set(validatedInCommonValue)];
-
-        for (let i = 0; i < noDuplicateValidatedInCommonValue.length; i++) {
-            for (let j = 0; j < validationErrorArray.length; j++) {
-                //when inCommon value is equal to the noDuplicateValidatedInCommonValue that being iterated then splice all those errors
-                if (validationErrorArray[j][0][1].name === noDuplicateValidatedInCommonValue[i]) {
-                    validationErrorArray.splice(j, 1);
-                    j--;
+        for (let j = 0; j < inCommonCorrespondence.length; j++) {
+            for (let i = 0; i < sumValidatedInCommonPointsGiven.length; i++) {
+                if (inCommonCorrespondence[j].name === sumValidatedInCommonPointsGiven[i][0]) {
+                    if (inCommonCorrespondence[j].neededPointsToValidate === sumValidatedInCommonPointsGiven[i][1]) {
+                        sumValidatedInCommonPointsGiven[i][2] = true;
+                    }
+                    if (inCommonCorrespondence[j].neededPointsToValidate !== sumValidatedInCommonPointsGiven[i][1]) {
+                        sumValidatedInCommonPointsGiven[i][2] = false;
+                    }
                 }
             }
         }
 
+
+        for (let i = 0; i < sumValidatedInCommonPointsGiven.length; i++) {
+            if (sumValidatedInCommonPointsGiven[i][2] === true) {
+                for (let j = 0; j < validationErrorArray.length; j++) {
+                    if (validationErrorArray[j][0][1].name === sumValidatedInCommonPointsGiven[i][0]) {
+                        validationErrorArray.splice(j, 1);
+                        j--;
+                    }
+                }
+            }
+        }
+
+        sumValidatedInCommonPointsGiven.length = 0;
 
         return validationErrorArray;
     }
