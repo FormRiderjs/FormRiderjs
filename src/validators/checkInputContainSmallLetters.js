@@ -21,7 +21,7 @@ export class CheckInputContainSmallLetters {
                 let regex = /[A-Z]/;
                 // Regular expression in order to test if all characters are Uppercase
                 if (regex.test(formInputValue)) {
-                    this.validationErrorArray.push(formInputName + " " + propertyErrorText);
+                    this.validationErrorArray.push(formInputName, propertyErrorText);
                 } else {
                     return true;
                 }
@@ -30,7 +30,7 @@ export class CheckInputContainSmallLetters {
             if (propertyValue === false) {
                 let regex = /[a-z]/;
                 if (regex.test(formInputValue)) {
-                    this.validationErrorArray.push(formInputName + " " + propertyErrorText);
+                    this.validationErrorArray.push(formInputName, propertyErrorText);
                 } else {
                     return true;
                 }
@@ -40,7 +40,7 @@ export class CheckInputContainSmallLetters {
 
             smallLettersCounter(formInputValue);
             if (propertyValue !== numberOfSmallLetters) {
-                this.validationErrorArray.push(formInputName + " " + propertyErrorText);
+                this.validationErrorArray.push(formInputName, propertyErrorText);
             } else {
                 return true;
             }
@@ -56,7 +56,7 @@ export class CheckInputContainSmallLetters {
 
                 smallLettersCounter(formInputValue);
                 if (numberOfSmallLetters === 0 || numberOfSmallLetters > propertyValueMaximum) {
-                    this.validationErrorArray.push(formInputName + " " + propertyErrorText);
+                    this.validationErrorArray.push(formInputName, propertyErrorText);
                 } else {
                     return true;
                 }
@@ -64,14 +64,14 @@ export class CheckInputContainSmallLetters {
             } else if (typeofPropertyValueMinimum === "number" && propertyValueMaximum === true) {
                 smallLettersCounter(formInputValue);
                 if (numberOfSmallLetters === 0 || numberOfSmallLetters < propertyValueMinimum) {
-                    this.validationErrorArray.push(formInputName + " " + propertyErrorText);
+                    this.validationErrorArray.push(formInputName, propertyErrorText);
                 } else {
                     return true;
                 }
             } else if (typeofPropertyValueMinimum === "number" && typeofPropertyValueMaximum === "number") {
                 smallLettersCounter(formInputValue);
                 if (numberOfSmallLetters < propertyValueMinimum || numberOfSmallLetters > propertyValueMaximum) {
-                    this.validationErrorArray.push(formInputName + " " + propertyErrorText);
+                    this.validationErrorArray.push(formInputName, propertyErrorText);
                 } else {
                     return true;
                 }

@@ -90,7 +90,6 @@
           ]
         },
         "otherPreference": {
-
           "required": [
             true,
             "please type another as a preference"
@@ -108,7 +107,6 @@
             },
             "please chose last name as a preference"
           ]
-
         }
       }
     },
@@ -234,16 +232,9 @@
           ]
         },
         "anotherWish": {
-          "required": [
-            {
-              "inCommon": [
-                {
-                  "name": "wish",
-                  "pointsGiven": 2
-                }
-              ]
-            },
-            "you should check one wish or type in another one"
+          "containNumber": [
+            true,
+            "should only contain numbers"
           ]
         },
         "sirage": {
@@ -326,32 +317,18 @@
         },
         "anotherName": {
           "required": [
-            true,
+            {
+              "inCommon": [
+                {
+                  "name": "name",
+                  "pointsGiven": 1
+                }
+              ]
+            },
             "is required if no checkbox are checked"
           ]
         }
       }
     }
-  },
-  "uiNotificationBoxCss": {
-    "position": "fixed",
-    "zIndex": "1000",
-    "left": "0",
-    "top": "0",
-    "width": "100%",
-    "margin": "auto",
-    "padding": "17px",
-    "textAlign": "",
-    "fontSize": "16px",
-    "fontWeight": "bold"
-  },
-  "uiErrorBoxCss": {
-    "marginTop": "10px",
-    "fontWeight": "normal"
-  },
-  "uiCloseBoxButton": {
-    "text": "Close Notification",
-    "marginLeft": "5px",
-    "cursor": "pointer"
   }
 }

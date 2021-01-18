@@ -123,17 +123,17 @@ export class InputValidation {
             .then((validator) => {
                 let usedValidation = new validator["CheckInput" + propertyKeyCapitalized];
                 if (lastElementInHasInCommon === true) {
-                    usedValidation["validateInCommon"](propertyKeyCapitalized, propertyValue, formInputName, formInputValue, propertyErrorText);
+                    usedValidation.validateInCommon(propertyKeyCapitalized, propertyValue, formInputName, formInputValue, propertyErrorText);
 
                     //when validated
-                    if (usedValidation["inCommonValidatedStatus"] === true) {
+                    if (usedValidation.inCommonValidatedStatus === true) {
                         this.validatedInCommonGroup.push(propertyValue);
                     }
                 }
 
 
                 if (lastElementInHasInCommon === false) {
-                    usedValidation["validate"](propertyKeyCapitalized, propertyValue, formInputName, formInputValue, propertyErrorText);
+                    usedValidation.validate(propertyKeyCapitalized, propertyValue, formInputName, formInputValue, propertyErrorText);
                 }
 
 

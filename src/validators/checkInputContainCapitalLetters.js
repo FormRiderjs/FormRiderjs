@@ -25,7 +25,7 @@ export class CheckInputContainCapitalLetters{
 
                 // Regular expression in order to test if all characters are Uppercase
                 if (regex.test(formInputValue)) {
-                    this.validationErrorArray.push(formInputName + " " + propertyErrorText);
+                    this.validationErrorArray.push(formInputName,propertyErrorText);
                 } else {
                     return true;
                 }
@@ -35,7 +35,7 @@ export class CheckInputContainCapitalLetters{
                 let regex = /[A-Z]/;
 
                 if (regex.test(formInputValue)) {
-                    this.validationErrorArray.push(formInputName + " " + propertyErrorText);
+                    this.validationErrorArray.push(formInputName,propertyErrorText);
                 } else {
                     return true;
                 }
@@ -45,7 +45,7 @@ export class CheckInputContainCapitalLetters{
 
             capitalLettersCounter(formInputValue);
             if (propertyValue !== numberOfCapitalLtters) {
-                this.validationErrorArray.push(formInputName + " " + propertyErrorText);
+                this.validationErrorArray.push(formInputName,propertyErrorText);
             } else {
                 return true;
             }
@@ -61,7 +61,7 @@ export class CheckInputContainCapitalLetters{
 
                 capitalLettersCounter(formInputValue);
                 if (numberOfCapitalLtters === 0 || numberOfCapitalLtters > propertyValueMaximum) {
-                    this.validationErrorArray.push(formInputName + " " + propertyErrorText);
+                    this.validationErrorArray.push(formInputName,propertyErrorText);
                 } else {
                     return true;
                 }
@@ -69,14 +69,14 @@ export class CheckInputContainCapitalLetters{
             } else if (typeofPropertyValueMinimum === "number" && propertyValueMaximum === true) {
                 capitalLettersCounter(formInputValue);
                 if (numberOfCapitalLtters === 0 || numberOfCapitalLtters < propertyValueMinimum) {
-                    this.validationErrorArray.push(formInputName + " " + propertyErrorText);
+                    this.validationErrorArray.push(formInputName,propertyErrorText);
                 } else {
                     return true;
                 }
             } else if (typeofPropertyValueMinimum === "number" && typeofPropertyValueMaximum === "number") {
                 capitalLettersCounter(formInputValue);
                 if (numberOfCapitalLtters < propertyValueMinimum || numberOfCapitalLtters > propertyValueMaximum) {
-                    this.validationErrorArray.push(formInputName + " " + propertyErrorText);
+                    this.validationErrorArray.push(formInputName,propertyErrorText);
                 } else {
                     return true;
                 }

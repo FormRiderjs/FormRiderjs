@@ -7,7 +7,7 @@ export class CheckInputNumberBiggerThan{
         if (formInputValue > propertyValue) {
             return true;
         } else {
-            this.validationErrorArray.push(formInputName + " " + propertyErrorText);
+            this.validationErrorArray.push(formInputName,propertyErrorText);
         }
     }
 }

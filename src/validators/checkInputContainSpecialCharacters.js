@@ -17,13 +17,13 @@ export class CheckInputContainSpecialCharacters {
 
             if (propertyValue === true) {
                 if (formInputLength > numberOfSpecialCharacters) {
-                    this.validationErrorArray.push(formInputName + " " + propertyErrorText);
+                    this.validationErrorArray.push(formInputName, propertyErrorText);
                 } else {
                     return true;
                 }
             } else if (propertyValue === false) {
                 if (regex.test(formInputValue)) {
-                    this.validationErrorArray.push(formInputName + " " + propertyErrorText);
+                    this.validationErrorArray.push(formInputName, propertyErrorText);
                 } else {
                     return true;
                 }
@@ -31,7 +31,7 @@ export class CheckInputContainSpecialCharacters {
         }
         if (typeof (propertyValue) === "number") {
             if (numberOfSpecialCharacters !== propertyValue) {
-                this.validationErrorArray.push(formInputName + " " + propertyErrorText);
+                this.validationErrorArray.push(formInputName, propertyErrorText);
             } else {
                 return true;
             }
@@ -43,7 +43,7 @@ export class CheckInputContainSpecialCharacters {
             if (typeof (propertyValueMinimum) === "number"
                 && propertyValueMaximum === true) {
                 if (numberOfSpecialCharacters < propertyValueMinimum) {
-                    this.validationErrorArray.push(formInputName + " " + propertyErrorText);
+                    this.validationErrorArray.push(formInputName, propertyErrorText);
                 } else {
                     return true;
                 }
@@ -51,7 +51,7 @@ export class CheckInputContainSpecialCharacters {
                 && typeof (propertyValueMaximum) === "number") {
 
                 if (numberOfSpecialCharacters > propertyValueMaximum) {
-                    this.validationErrorArray.push(formInputName + " " + propertyErrorText);
+                    this.validationErrorArray.push(formInputName, propertyErrorText);
                 } else {
                     return true;
                 }
@@ -60,7 +60,7 @@ export class CheckInputContainSpecialCharacters {
 
                 if (numberOfSpecialCharacters < propertyValueMinimum
                     || numberOfSpecialCharacters > propertyValueMaximum) {
-                    this.validationErrorArray.push(formInputName + " " + propertyErrorText);
+                    this.validationErrorArray.push(formInputName, propertyErrorText);
                 }
             }
         }

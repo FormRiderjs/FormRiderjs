@@ -10,7 +10,7 @@ export class CheckInputEmail{
             if (regex.test(String(formInputValue).toLowerCase())) {
                 return true;
             } else {
-                this.validationErrorArray.push(formInputName + " " + propertyErrorText);
+                this.validationErrorArray.push(formInputName,propertyErrorText);
             }
         }
     }

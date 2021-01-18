@@ -27,7 +27,7 @@ export class CheckInputContainNumber{
             if (propertyValueMinimum === true && typeof (propertyValueMaximum) === "number") {
                 numberCounter(formInputValue);
                 if (numberOfNumbersInFormInput > propertyValueMaximum) {
-                    this.validationErrorArray.push(formInputName + " " + propertyErrorText);
+                    this.validationErrorArray.push(formInputName,propertyErrorText);
                 }
 
             } else if (typeof (propertyValueMinimum) === "number" && propertyValueMaximum === true) {
@@ -35,13 +35,13 @@ export class CheckInputContainNumber{
 
                 // here below : && numberOfNumbersInFormInput > 0 is for empty inputs
                 if (numberOfNumbersInFormInput < propertyValueMinimum) {
-                    this.validationErrorArray.push(formInputName + " " + propertyErrorText);
+                    this.validationErrorArray.push(formInputName,propertyErrorText);
                 }
             } else if (typeof (propertyValueMinimum) === "number" && typeof (propertyValueMaximum) === "number") {
                 numberCounter(formInputValue);
 
                 if (numberOfNumbersInFormInput < propertyValueMinimum || numberOfNumbersInFormInput > propertyValueMaximum) {
-                    this.validationErrorArray.push(formInputName + " " + propertyErrorText);
+                    this.validationErrorArray.push(formInputName,propertyErrorText);
                 }
             }
 
@@ -49,13 +49,13 @@ export class CheckInputContainNumber{
             if (propertyValue === true) {
                 numberCounter(formInputValue);
                 if (numberOfNumbersInFormInput < formInputValueLength) {
-                    this.validationErrorArray.push(formInputName + " " + propertyErrorText);
+                    this.validationErrorArray.push(formInputName,propertyErrorText);
                 }
             } else if (propertyValue === false) {
 
                 numberCounter(formInputValue);
                 if (numberOfNumbersInFormInput > 0) {
-                    this.validationErrorArray.push(formInputName + " " + propertyErrorText);
+                    this.validationErrorArray.push(formInputName,propertyErrorText);
                 }
             }
         }

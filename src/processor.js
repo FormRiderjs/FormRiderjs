@@ -1,6 +1,6 @@
 // this class will get formData, process data, call other necessary class
 import {InputValidation} from "./inputValidation.js";
-import {Notification} from "./notificationGenerator.js";
+import {NotificationGenerator} from "./notificationGenerator.js";
 import {CustomError} from "./customError.js";
 
 export class Processor {
@@ -52,10 +52,10 @@ export class Processor {
         let timer = setTimeout(function () {
 
             //check if the error array is empty or not, if it is empty then submit data and then show the notification, if not then do noting and only show the notification
-            if (inputValidation["inputValidationRecap"][1].length === 0) {
+            if (inputValidation.inputValidationRecap[1].length === 0) {
                 _this.sendData(requestMethod, postURL, dataToSubmit);
             }
-            new Notification(inputValidation["inputValidationRecap"], onTheFlyConfigs);
+            new NotificationGenerator(inputValidation.inputValidationRecap, onTheFlyConfigs);
             clearTimeout(timer);
         }, 100);
     }

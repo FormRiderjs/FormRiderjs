@@ -11,7 +11,7 @@ export class CheckInputRegexTest {
 
         if (typeof (propertyValue) === "object") {
             if (regex.test(formInputValue)) {
-                this.validationErrorArray.push(formInputName + " " + propertyErrorText);
+                this.validationErrorArray.push(formInputName,propertyErrorText);
             } else {
                 return true;
             }

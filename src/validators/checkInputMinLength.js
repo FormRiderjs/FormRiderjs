@@ -7,7 +7,7 @@ export class CheckInputMinLength {
     {
         formInputValue = formInputValue.toString();
         if (formInputValue.length < propertyValue) {
-            this.validationErrorArray.push(formInputName + " " + propertyErrorText);
+            this.validationErrorArray.push(formInputName,propertyErrorText);
         } else {
             return true;
         }
