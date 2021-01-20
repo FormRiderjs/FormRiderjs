@@ -1,13 +1,25 @@
-class uiNotification {
-    constructor(inputValidationErrorLength) {
+export class UINotification {
+    constructor(inputValidationErrorArray, notificationText, notificationTextColor, notificationBackgroundColor) {
 
-        let uiNotificationBox = this.createNotificationBox();
-        let uiErrorBox = this.createErrorBox();
-        let uiCloseButton = this.createCloseBoxButton(uiNotificationBox);
-        this.closeNotificationAutomatically(inputValidationErrorLength, 5000);
+        this.notificationBox  = this.createNotificationBox(notificationBackgroundColor);
+        this.errorBox = this.createErrorBox();
+        this.closeBoxButton = this.createCloseBoxButton(notificationTextColor);
+        this.notificationContent = this.createNotificationContent(notificationTextColor,notificationText);
+
+
+        this.notificationContent.appendChild(this.closeBoxButton);
+        this.notificationBox.appendChild(this.notificationContent);
+
+        this.createNotification(inputValidationErrorArray);
+
+        this.uiShowNotification(this.notificationBox);
     }
 
-    createNotificationBox() {
+
+
+
+    createNotificationBox(notificationBackgroundColor) {
+
         let uiNotificationBox = document.createElement("div");
 
         uiNotificationBox.style.position = "fixed";
@@ -20,12 +32,12 @@ class uiNotification {
         uiNotificationBox.style.textAlign = "";
         uiNotificationBox.style.fontSize = "16px";
         uiNotificationBox.style.fontWeight = "bold";
+        uiNotificationBox.style.backgroundColor = notificationBackgroundColor;
 
         return uiNotificationBox;
     }
 
-
-    createErrorBox(){
+    createErrorBox() {
         let uiErrorBox = document.createElement("div");
 
         uiErrorBox.style.marginTop = "10px";
@@ -34,31 +46,46 @@ class uiNotification {
         return uiErrorBox;
     }
 
+    createCloseBoxButton(notificationTextColor) {
 
-    createCloseBoxButton(uiNotificationBox){
         let uiCloseBoxButton = document.createElement("span");
         uiCloseBoxButton.innerHTML = "close Notification";
         uiCloseBoxButton.style.marginLeft = "5px";
         uiCloseBoxButton.style.cursor = "pointer";
-
+        uiCloseBoxButton.style.color = notificationTextColor
+        uiCloseBoxButton.style.borderBottom = "solid 2px" + notificationTextColor;
         return uiCloseBoxButton;
     }
 
+    createNotificationContent(notificationTextColor, notificationText) {
+        let uiNotificationContent = document.createElement("div");
+        uiNotificationContent.style.color = notificationTextColor;
+        uiNotificationContent.innerHTML = notificationText;
 
-    closeNotificationManually(uiCloseButton, notification) {
-        uiCloseButton.addEventListener("click", function () {
-            notification.parentNode.removeChild(notification);
-        });
+        return uiNotificationContent;
+    }
+
+    createSingleLineError (errorLine){
+        let uiErrorLine = document.createElement("div");
+        uiErrorLine.innerHTML = "<span style='line-height: 125%'>&#8226;</span> " + errorLine;
+
+        return uiErrorLine
     }
 
 
+    createNotification(inputValidationErrorArray){
 
-    closeNotificationAutomatically(inputValidationErrorLength, delay) {
-        if (inputValidationErrorLength === 0) {
-            setTimeout(function () {
-                notification.parentNode.removeChild(notification);
-            }, delay);
+        for(let i =0 ; i<inputValidationErrorArray.length; i++){
+            this.errorBox.append(this.createSingleLineError(inputValidationErrorArray[i][1]));
         }
+        if(inputValidationErrorArray.length !== 0) {
+            this.notificationContent.appendChild(this.errorBox);
+        }
+
     }
 
+    uiShowNotification(notification){
+        let appendedNotification = document.body.appendChild(notification);
+        return appendedNotification;
+    }
 }

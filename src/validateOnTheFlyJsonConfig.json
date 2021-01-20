@@ -2,67 +2,30 @@
   "notifications": [
     {
       "notificationCode": 1,
-      "validationStatus": true,
       "text": "Thank you for contacting us ! : )",
       "textColor": "#E6E6E6",
-      "backgroundColor": "#5CD8AA",
-      "animation": false
+      "backgroundColor": "#5CD8AA"
     },
     {
       "notificationCode": 2,
-      "validationStatus": false,
       "text": "Error with some fields.",
       "textColor": "#E6E6E6",
-      "backgroundColor": "#E66767",
-      "animation": false
+      "backgroundColor": "#E66767"
     },
     {
       "notificationCode": 3,
-      "validationStatus": true,
       "text": "Thank you for choosing a maintenance knowing that it should not be used for military issues",
       "textColor": "#E6E6E6",
-      "backgroundColor": "#1B7CD1",
-      "animation": false
+      "backgroundColor": "#1B7CD1"
     },
     {
       "notificationCode": 4,
-      "validationStatus": false,
       "text": "Error with some fields...that is good because wars will stop.",
       "textColor": "#E6E6E6",
-      "backgroundColor": "#ff9e2c",
-      "animation": false
+      "backgroundColor": "#ff9e2c"
     }
   ],
   "elementsToApplyValidationOn": {
-    "contactUsForm": {
-      "notificationCode": {
-        "validated": 1,
-        "notValidated": 2
-      },
-      "resetFormUponSubmit": false,
-      "inputNameToValidate": {
-        "last Name": {
-          "required": [
-            {
-              "inCommon": [
-                "name"
-              ]
-            },
-            "is required"
-          ]
-        },
-        "firstName": {
-          "required": [
-            {
-              "inCommon": [
-                "name"
-              ]
-            },
-            "is required"
-          ]
-        }
-      }
-    },
     "computerWishes": {
       "notificationCode": {
         "validated": 1,
