@@ -1,21 +1,28 @@
 export class UINotification {
+
+    static lastNotificationInstanceId = 0;
+
     constructor(inputValidationErrorArray, notificationText, notificationTextColor, notificationBackgroundColor) {
 
-        this.notificationBox  = this.createNotificationBox(notificationBackgroundColor);
+        this.notificationInstanceId = UINotification.lastNotificationInstanceId++;
+
+        this.notificationBox = this.createNotificationBox(notificationBackgroundColor);
         this.errorBox = this.createErrorBox();
-        this.closeBoxButton = this.createCloseBoxButton(notificationTextColor);
-        this.notificationContent = this.createNotificationContent(notificationTextColor,notificationText);
+        let closeBoxButton = this.createCloseBoxButton(notificationTextColor);
+        this.notificationContent = this.createNotificationContent(notificationTextColor, notificationText);
 
 
-        this.notificationContent.appendChild(this.closeBoxButton);
+        this.notificationContent.appendChild(closeBoxButton);
         this.notificationBox.appendChild(this.notificationContent);
 
         this.createNotification(inputValidationErrorArray);
 
-        this.uiShowNotification(this.notificationBox);
+        this.notification = this.uiShowNotification(this.notificationBox);
+
+        this.closeNotificationAutomatically(this.notification, inputValidationErrorArray, 2000);
+        this.closeNotificationManually(this.notification, closeBoxButton);
+
     }
-
-
 
 
     createNotificationBox(notificationBackgroundColor) {
@@ -65,7 +72,7 @@ export class UINotification {
         return uiNotificationContent;
     }
 
-    createSingleLineError (errorLine){
+    createSingleLineError(errorLine) {
         let uiErrorLine = document.createElement("div");
         uiErrorLine.innerHTML = "<span style='line-height: 125%'>&#8226;</span> " + errorLine;
 
@@ -73,19 +80,38 @@ export class UINotification {
     }
 
 
-    createNotification(inputValidationErrorArray){
+    createNotification(inputValidationErrorArray) {
 
-        for(let i =0 ; i<inputValidationErrorArray.length; i++){
+        for (let i = 0; i < inputValidationErrorArray.length; i++) {
             this.errorBox.append(this.createSingleLineError(inputValidationErrorArray[i][1]));
         }
-        if(inputValidationErrorArray.length !== 0) {
+        if (inputValidationErrorArray.length !== 0) {
             this.notificationContent.appendChild(this.errorBox);
         }
 
     }
 
-    uiShowNotification(notification){
-        let appendedNotification = document.body.appendChild(notification);
-        return appendedNotification;
+    uiShowNotification(notification) {
+        return document.body.appendChild(notification);
+    }
+
+
+    closeNotificationAutomatically(notification, inputValidationErrorArray, delay) {
+        //Close notification automatically only when there is no errors
+        if (inputValidationErrorArray.length === 0) {
+            setTimeout(() => {
+                //if notification is already closed then do nothing
+                if(notification.parentNode !== null){
+                    notification.parentNode.removeChild(notification);
+                }
+            }, delay);
+        }
+
+    }
+
+    closeNotificationManually(notification, closeBoxButton) {
+        closeBoxButton.addEventListener("click", (e) => {
+            notification.parentNode.removeChild(notification);
+        });
     }
 }

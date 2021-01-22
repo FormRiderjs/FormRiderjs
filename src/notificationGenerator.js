@@ -5,9 +5,9 @@ export class NotificationGenerator {
 
     constructor(inputValidationRecap, onTheFlyConfigs) {
 
-        this.notificationText;
-        this.notificationTextColor;
-        this.notificationBackgroundColor;
+        this.notificationText = "";
+        this.notificationTextColor = "";
+        this.notificationBackgroundColor = "";
 
 
         let inputValidationErrorArray = inputValidationRecap[1];
@@ -23,24 +23,23 @@ export class NotificationGenerator {
         this.notificationAssembler(onTheFlyConfigs.notifications, formNotificationCode, inputValidationErrorArray);
 
 
-        new UINotification(inputValidationErrorArray, this.notificationText, this.notificationTextColor ,this.notificationBackgroundColor);
+        let uiNotification =  new UINotification(inputValidationErrorArray, this.notificationText, this.notificationTextColor ,this.notificationBackgroundColor);
 
+        console.log(uiNotification.notificationInstanceId);
 
-        // this.closeNotificationManually(uiCloseButton, notification);
-        // this.closeNotificationAutomatically(notification, inputValidationErrorLength, 5000);
-
+        this.closeAllPrecedentNotification(uiNotification.notification);
     }
 
 
-
-
-
-    createSingleLineError (errorLin){
-        let uiErrorLine = document.createElement("div");
-        uiErrorLine.innerHTML = "<span style='line-height: 125%'>&#8226;</span> " + errorLin;
-
-        return uiErrorLine
+    closeAllPrecedentNotification(notification)
+    {
+        let currentNotificationId = UINotification.lastNotificationInstanceId
+        if(currentNotificationId > 1){
+            notification.parentNode.removeChild(notification);
+            UINotification.lastNotificationInstanceId = 0;
+        }
     }
+
 
 
     notificationAssembler(jsonNotifications, formNotificationCode) {
@@ -63,22 +62,5 @@ export class NotificationGenerator {
         }
     }
 
-
-    //create a X button on the right side in order to be able to close the notification
-    //if not closing automatically via the animation function
-    closeNotificationAutomatically(notification, inputValidationErrorLength, delay) {
-        if (inputValidationErrorLength === 0) {
-            setTimeout(function () {
-                notification.parentNode.removeChild(notification);
-            }, delay);
-        }
-    }
-
-
-    closeNotificationManually(uiCloseButton, notification) {
-        uiCloseButton.addEventListener("click", function () {
-            notification.parentNode.removeChild(notification);
-        });
-    }
 }
 
