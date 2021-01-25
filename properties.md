@@ -10,18 +10,20 @@
 - "`minlength`":    
    - [number(NUMBER of characters in input), error text],
 ----------
-- "`containNumber`" :   
-    - [true (should only contain numbers of int type), error text]
+- "`containNumber`" :
+    - [true (should only contain numbers of int type), error text] : number type should be int
     - [false (should not contain numbers), error text]
     - [[NUMBER, true] (should contain at least NUMBER of numbers), error text]
     - [[true, NUMBER] (can contain up to NUMBER of numbers), error text]
     - [[NUMBER1, NUMBER2] (should contain between NUMBER1 and NUMBER2 numbers), error text],
    ----------
-- "`numberBiggerThan`" :    
+- "`numberBiggerThan`" :
+   input should only contain a number, it can be int or float, 
    - [number (return true if input is bigger than NUMBER), error text],
    ----------
 
-- "`numberSmallerThan`":    
+- "`numberSmallerThan`" :
+   input should only contain a number, it can be int or float, 
     - [number (return true if input is smaller than NUMBER), error text],
 ----------
 - "`containSpecialCharacters`": 
@@ -34,9 +36,9 @@
 ----------
 
 - "`containWhiteSpace`":
-    - [[true(contain), true(start)](input can contain and can start with white spaces), error text]
-    - [[true, false](input can contain but cannot start with white spaces), error text]
-    - [[false, false](input should not contain nor start with white spaces), error text]
+    - [[true(can contain white spaces), true(can start with a white space)], error text]
+    - [[true(can contain white spaces), false(cannot start with a white space)], error text]
+    - [[false(cannot contain  white spaces), false (cannot start with a white space)], error text]
 
 
 ----------
@@ -99,8 +101,7 @@
 
 Example of combination for a password input 
 
-```JSON
-        "userPassword" : 
+        "userPassword" :
          {
 	     "required" : [true, "input is empty"],
 	     "containNumber" : [true, "does not contain any numbers"],
@@ -109,6 +110,5 @@ Example of combination for a password input
 	     "containSpecialCharacters" : [1, "does not contain 1 special character"],
 	     "containCapitalLetters" : [2, "contain more than 2 special characters"]
 		 }
-```
 
 

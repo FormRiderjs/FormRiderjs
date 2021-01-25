@@ -23,11 +23,16 @@ export class NotificationGenerator {
         this.notificationAssembler(onTheFlyConfigs.notifications, formNotificationCode, inputValidationErrorArray);
 
 
-        let uiNotification =  new UINotification(inputValidationErrorArray, this.notificationText, this.notificationTextColor ,this.notificationBackgroundColor);
 
-        console.log(uiNotification.notificationInstanceId);
+        if(UINotification.notificationActivated === true){
+            UINotification.closePrecedentNotifications(UINotification.uiNotification);
+        }
 
-        this.closeAllPrecedentNotification(uiNotification.notification);
+        new UINotification(inputValidationErrorArray, this.notificationText, this.notificationTextColor ,this.notificationBackgroundColor);
+
+        UINotification.notificationActivated = true;
+
+
     }
 
 

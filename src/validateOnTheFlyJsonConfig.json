@@ -279,15 +279,8 @@
           ]
         },
         "anotherName": {
-          "required": [
-            {
-              "inCommon": [
-                {
-                  "name": "name",
-                  "pointsGiven": 1
-                }
-              ]
-            },
+          "numberSmallerThan": [
+            10,
             "is required if no checkbox are checked"
           ]
         }

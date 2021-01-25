@@ -44,7 +44,7 @@ export class CheckInputContainCapitalLetters{
         } else if (typeofPropertyValue === "number") {
 
             capitalLettersCounter(formInputValue);
-            if (propertyValue !== numberOfCapitalLtters) {
+            if (propertyValue !== numberOfCapitalLetters) {
                 this.validationErrorArray.push(formInputName,propertyErrorText);
             } else {
                 return true;
@@ -60,7 +60,7 @@ export class CheckInputContainCapitalLetters{
             if (propertyValueMinimum === true && typeofPropertyValueMaximum === "number") {
 
                 capitalLettersCounter(formInputValue);
-                if (numberOfCapitalLtters === 0 || numberOfCapitalLtters > propertyValueMaximum) {
+                if (numberOfCapitalLetters === 0 || numberOfCapitalLetters > propertyValueMaximum) {
                     this.validationErrorArray.push(formInputName,propertyErrorText);
                 } else {
                     return true;
@@ -68,14 +68,14 @@ export class CheckInputContainCapitalLetters{
 
             } else if (typeofPropertyValueMinimum === "number" && propertyValueMaximum === true) {
                 capitalLettersCounter(formInputValue);
-                if (numberOfCapitalLtters === 0 || numberOfCapitalLtters < propertyValueMinimum) {
+                if (numberOfCapitalLetters === 0 || numberOfCapitalLetters < propertyValueMinimum) {
                     this.validationErrorArray.push(formInputName,propertyErrorText);
                 } else {
                     return true;
                 }
             } else if (typeofPropertyValueMinimum === "number" && typeofPropertyValueMaximum === "number") {
                 capitalLettersCounter(formInputValue);
-                if (numberOfCapitalLtters < propertyValueMinimum || numberOfCapitalLtters > propertyValueMaximum) {
+                if (numberOfCapitalLetters < propertyValueMinimum || numberOfCapitalLetters > propertyValueMaximum) {
                     this.validationErrorArray.push(formInputName,propertyErrorText);
                 } else {
                     return true;

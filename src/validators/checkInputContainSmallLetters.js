@@ -7,8 +7,8 @@ export class CheckInputContainSmallLetters {
     validate(propertyKeyCapitalized, propertyValue, formInputName, formInputValue, propertyErrorText) {
         let typeofPropertyValue = typeof (propertyValue);
 
-        var numberOfSmallLetters = 0;
-        var smallLettersCounter = function (formInputValue) {
+        let numberOfSmallLetters = 0;
+        let smallLettersCounter = function (formInputValue) {
             for (let i = 0; i < formInputValue.length; i++) {
                 if (formInputValue[i] === formInputValue[i].toLowerCase() && formInputValue[i] !== formInputValue[i].toUpperCase()) {
                     numberOfSmallLetters++;

@@ -1,10 +1,15 @@
 export class UINotification {
 
-    static lastNotificationInstanceId = 0;
+    // static lastNotificationInstanceId = 0;
+
+    static notificationActivated = false;
+    static uiNotification;
+
+
 
     constructor(inputValidationErrorArray, notificationText, notificationTextColor, notificationBackgroundColor) {
 
-        this.notificationInstanceId = UINotification.lastNotificationInstanceId++;
+        // this.notificationInstanceId = UINotification.lastNotificationInstanceId++;
 
         this.notificationBox = this.createNotificationBox(notificationBackgroundColor);
         this.errorBox = this.createErrorBox();
@@ -18,10 +23,19 @@ export class UINotification {
         this.createNotification(inputValidationErrorArray);
 
         this.notification = this.uiShowNotification(this.notificationBox);
+        UINotification.uiNotification = this.notification;
+
 
         this.closeNotificationAutomatically(this.notification, inputValidationErrorArray, 2000);
         this.closeNotificationManually(this.notification, closeBoxButton);
 
+    }
+
+
+
+    static closePrecedentNotifications(notification){
+        notification.parentNode.removeChild(notification);
+        UINotification.notificationActivated = false;
     }
 
 
@@ -101,8 +115,9 @@ export class UINotification {
         if (inputValidationErrorArray.length === 0) {
             setTimeout(() => {
                 //if notification is already closed then do nothing
-                if(notification.parentNode !== null){
+                if (notification.parentNode !== null) {
                     notification.parentNode.removeChild(notification);
+                    UINotification.notificationActivated = false;
                 }
             }, delay);
         }
@@ -112,6 +127,7 @@ export class UINotification {
     closeNotificationManually(notification, closeBoxButton) {
         closeBoxButton.addEventListener("click", (e) => {
             notification.parentNode.removeChild(notification);
+            UINotification.notificationActivated = false;
         });
     }
 }
