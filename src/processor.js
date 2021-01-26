@@ -50,12 +50,13 @@ export class Processor {
         let inputValidation = new InputValidation(otfFormNameToProcess, formData, onTheFlyConfigs);
         let _this = this;
         let timer = setTimeout(function () {
-
-            //check if the error array is empty or not, if it is empty then submit data and then show the notification, if not then do noting and only show the notification
-            if (inputValidation.inputValidationRecap[1].length === 0) {
-                _this.sendData(requestMethod, postURL, dataToSubmit);
+            if (inputValidation.validated) {
+                //check if the error array is empty or not, if it is empty then submit data and then show the notification, if not then do noting and only show the notification
+                if (inputValidation.inputValidationRecap[1].length === 0) {
+                    _this.sendData(requestMethod, postURL, dataToSubmit);
+                }
+                new NotificationGenerator(inputValidation.inputValidationRecap, onTheFlyConfigs);
             }
-            new NotificationGenerator(inputValidation.inputValidationRecap, onTheFlyConfigs);
             clearTimeout(timer);
         }, 100);
     }

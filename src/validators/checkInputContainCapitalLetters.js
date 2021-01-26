@@ -9,6 +9,18 @@ export class CheckInputContainCapitalLetters{
     validate(propertyKeyCapitalized, propertyValue, formInputName, formInputValue, propertyErrorText) {
         let typeofPropertyValue = typeof (propertyValue);
 
+
+        //return true if input is being used / return false if not
+        let inputIsBeingUsed = function(formInputValue){
+            if(formInputValue.length > 0) {
+                return true;
+            }
+            if(formInputValue.length === 0) {
+                return false;
+            }
+        }
+
+
         let numberOfCapitalLetters = 0;
         let capitalLettersCounter = function (formInputValue) {
             for (let i = 0; i < formInputValue.length; i++) {
@@ -41,16 +53,17 @@ export class CheckInputContainCapitalLetters{
                 }
             }
 
-        } else if (typeofPropertyValue === "number") {
+        } else if (typeofPropertyValue === "number" && inputIsBeingUsed(formInputValue)) {
 
             capitalLettersCounter(formInputValue);
+
             if (propertyValue !== numberOfCapitalLetters) {
                 this.validationErrorArray.push(formInputName,propertyErrorText);
             } else {
                 return true;
             }
 
-        } else if (typeofPropertyValue === "object") {
+        } else if (typeofPropertyValue === "object" && inputIsBeingUsed(formInputValue)) {
             let propertyValueMinimum = propertyValue[0];
             let propertyValueMaximum = propertyValue[1];
             let typeofPropertyValueMinimum = typeof (propertyValueMinimum);

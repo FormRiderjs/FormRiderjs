@@ -6,9 +6,8 @@ export class InputValidation {
         will be pushed to this array and passed to notificationGenerator after  */
         this.inputValidationRecap = [];
         this.validationErrorArray = [];
-        /* validated is set to true, but in case the validation didnt work
-         it will be set to false in order to return the false statement
-         using the returnValidatedBool() */
+
+        //validated is always set to true, but will be set to false in case there is an error when calling a validator/importing it e.g when there is an error and the validator does not exist for example
         this.validated = true;
 
         this.resetFormUponSubmitValue = false;
@@ -102,7 +101,6 @@ export class InputValidation {
             if (this.doesHasInCommon === false) {
                 this.inputValidationRecap.push(this.validationErrorArray);
             }
-            this.returnValidatedBool(this.validationErrorArray);
             this.resetFormUponSubmit(otfFormNameToProcess, this.resetFormUponSubmitValue, this.validationErrorArray);
             return this;
         }, 100);
@@ -122,6 +120,7 @@ export class InputValidation {
         import ("./validators/checkInput" + propertyKeyCapitalized + ".js")
             .then((validator) => {
                 let usedValidation = new validator["CheckInput" + propertyKeyCapitalized];
+                //if the element has an inCommon then launch the validateInCommon function
                 if (lastElementInHasInCommon === true) {
                     usedValidation.validateInCommon(propertyKeyCapitalized, propertyValue, formInputName, formInputValue, propertyErrorText);
 
@@ -131,7 +130,7 @@ export class InputValidation {
                     }
                 }
 
-
+                //when the element does not have an inCommon then launch the normal validate function
                 if (lastElementInHasInCommon === false) {
                     usedValidation.validate(propertyKeyCapitalized, propertyValue, formInputName, formInputValue, propertyErrorText);
                 }
@@ -142,11 +141,11 @@ export class InputValidation {
                 if (usedValidationErrorArray.length !== 0) {
                     this.validationErrorArray.push(usedValidationErrorArray);
                 }
-
             })
+
+
             .catch((error) => {
                 this.validated = false;
-                console.log(error);
                 throw new CustomError("OnTheFly.js ERROR", "Unknown validator property '" + propertyKey + "' in onTheFlyJsonConfig ");
             })
     }
@@ -159,7 +158,6 @@ export class InputValidation {
         let sumValidatedInCommonPointsGiven = [[undefined, 0, false]];
 
         let indexToBeFilled = 0;
-        console.log(validatedInCommonGroup);
 
         for (let i = 0; i < validatedInCommonGroup.length; i++) {
             let validatedInCommonName = validatedInCommonGroup[i][1].name;
@@ -190,7 +188,6 @@ export class InputValidation {
                 }
             }
         }
-
 
 
         for (let j = 0; j < inCommonCorrespondence.length; j++) {
@@ -245,8 +242,4 @@ export class InputValidation {
         }
     }
 
-    //returning the bool
-    returnValidatedBool(validationErrorArray) {
-        this.validated = validationErrorArray.length === 0;
-    }
 }

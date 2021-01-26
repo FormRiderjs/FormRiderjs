@@ -7,6 +7,19 @@ export class CheckInputContainSmallLetters {
     validate(propertyKeyCapitalized, propertyValue, formInputName, formInputValue, propertyErrorText) {
         let typeofPropertyValue = typeof (propertyValue);
 
+
+        //return true if input is being used / return false if not
+        let inputIsBeingUsed = function(formInputValue){
+            if(formInputValue.length > 0) {
+                return true;
+            }
+            if(formInputValue.length === 0) {
+                return false;
+            }
+        }
+
+
+
         let numberOfSmallLetters = 0;
         let smallLettersCounter = function (formInputValue) {
             for (let i = 0; i < formInputValue.length; i++) {
@@ -36,7 +49,7 @@ export class CheckInputContainSmallLetters {
                 }
             }
 
-        } else if (typeofPropertyValue === "number") {
+        } else if (typeofPropertyValue === "number" && inputIsBeingUsed(formInputValue)) {
 
             smallLettersCounter(formInputValue);
             if (propertyValue !== numberOfSmallLetters) {
@@ -45,7 +58,7 @@ export class CheckInputContainSmallLetters {
                 return true;
             }
 
-        } else if (typeofPropertyValue === "object") {
+        } else if (typeofPropertyValue === "object" && inputIsBeingUsed(formInputValue)) {
             let propertyValueMinimum = propertyValue[0];
             let propertyValueMaximum = propertyValue[1];
             let typeofPropertyValueMinimum = typeof (propertyValueMinimum);

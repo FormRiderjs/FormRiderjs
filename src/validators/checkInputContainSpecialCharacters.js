@@ -5,6 +5,20 @@ export class CheckInputContainSpecialCharacters {
 
 
     validate(propertyKeyCapitalized, propertyValue, formInputName, formInputValue, propertyErrorText) {
+
+
+        //return true if input is being used / return false if not
+        let inputIsBeingUsed = function(formInputValue){
+            if(formInputValue.length > 0) {
+                return true;
+            }
+            if(formInputValue.length === 0) {
+                return false;
+            }
+        }
+
+
+
         let regex = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/g;
         let specialCharacterCount = (string) => {
             return (string.match(regex) || []).length;
@@ -29,14 +43,14 @@ export class CheckInputContainSpecialCharacters {
                 }
             }
         }
-        if (typeof (propertyValue) === "number") {
+        if (typeof (propertyValue) === "number" && inputIsBeingUsed(formInputValue)) {
             if (numberOfSpecialCharacters !== propertyValue) {
                 this.validationErrorArray.push(formInputName, propertyErrorText);
             } else {
                 return true;
             }
         }
-        if (typeof (propertyValue) === "object") {
+        if (typeof (propertyValue) === "object" && inputIsBeingUsed(formInputValue)) {
             let propertyValueMinimum = propertyValue[0];
             let propertyValueMaximum = propertyValue[1];
 

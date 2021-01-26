@@ -279,8 +279,8 @@
           ]
         },
         "anotherName": {
-          "numberSmallerThan": [
-            10,
+          "maxLength": [
+            2,
             "is required if no checkbox are checked"
           ]
         }
