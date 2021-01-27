@@ -3,7 +3,7 @@ import {UINotification} from "./uiNotification/uiNotification.js";
 
 export class NotificationGenerator {
 
-    constructor(inputValidationRecap, onTheFlyConfigs) {
+    constructor(inputValidationRecap, formRiderConfigs) {
 
         this.notificationText = "";
         this.notificationTextColor = "";
@@ -15,12 +15,12 @@ export class NotificationGenerator {
 
         //terminate process and show uncaught error, anyway...this will happen only if there is previous errors it is done to prevent unnecessary errors to be shown
         if (inputValidationErrorArray === undefined) {
-            throw new CustomError("OnTheFly.js ERROR", "Uncaught error");
+            throw new CustomError("FormRider.js ERROR", "Uncaught error");
         }
 
 
         let formNotificationCode = this.extractFormNotificationCode(inputValidationRecap[0], inputValidationErrorLength);
-        this.notificationAssembler(onTheFlyConfigs.notifications, formNotificationCode, inputValidationErrorArray);
+        this.notificationAssembler(formRiderConfigs.notifications, formNotificationCode, inputValidationErrorArray);
 
 
 

@@ -1,12 +1,12 @@
 
 
-# validateOnTheFly 
+# FormRider.js
 Javascript front-end form validation and notification library, simple, fast, polyvalent and opensource 
 
 ----------
 Usage :
 -------
-- Start by cloning validateOnTheFly :  
+- Start by cloning FormRider.js :  
 ```GIT
 git clone https://github.com/iLoveSemicolons/validateOnTheFly.git
 ```
@@ -16,7 +16,7 @@ git clone https://github.com/iLoveSemicolons/validateOnTheFly.git
    by the path to validateOnTheFly file in your project.
   
 ```HTML
-<script src="<PATH>/validateOnTheFly/src/onTheFly.js"> </script> 
+<script src="<PATH>/formRiderjs/src/formRider.js"> </script> 
 ```
 
 ----------

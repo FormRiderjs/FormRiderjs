@@ -82,11 +82,14 @@
       "inCommonCorrespondence": [
         {
           "name": "wish",
-          "neededPointsToValidate": 2
+          "neededPointsToValidate": 2,
+          "errorMessage" : "please follow the instructions, your submission was not accepted"
         },
         {
           "name": "name",
-          "neededPointsToValidate": 1
+          "neededPointsToValidate": 1,
+          "errorMessage" : "You should only chose one name"
+
         }
       ],
       "inputNameToValidate": {

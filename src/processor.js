@@ -4,29 +4,29 @@ import {NotificationGenerator} from "./notificationGenerator.js";
 import {CustomError} from "./customError.js";
 
 export class Processor {
-    constructor(onTheFlyConfigs) {
+    constructor(formRiderConfigs) {
 
 
-        let elementsToApplyValidationOn = onTheFlyConfigs["elementsToApplyValidationOn"];
+        let elementsToApplyValidationOn = formRiderConfigs["elementsToApplyValidationOn"];
 
-        let otfForms = document.querySelectorAll("[data-otfForm]");
+        let frForms = document.querySelectorAll("[data-frForm]");
 
 
-        /*      1- detect all otfForms in the page
-                2- check if the data-otfForm is declared in the jsonConfigs file
+        /*      1- detect all frForms in the page
+                2- check if the data-frForm is declared in the jsonConfigs file
                 3- if it is declared call the processing function otherwise show an error*/
-        otfForms.forEach((form) => {
+        frForms.forEach((form) => {
             form.addEventListener("submit", (event) => {
                 event.preventDefault();
 
 
-                let otfFormNameToProcess = event.currentTarget.attributes["data-otfForm"].nodeValue;
-                if (elementsToApplyValidationOn.hasOwnProperty(otfFormNameToProcess)) {
-                    this.processing(form, otfFormNameToProcess, onTheFlyConfigs)
+                let frFormNameToProcess = event.currentTarget.attributes["data-frForm"].nodeValue;
+                if (elementsToApplyValidationOn.hasOwnProperty(frFormNameToProcess)) {
+                    this.processing(form, frFormNameToProcess, formRiderConfigs)
                 }
                 //Throw an error when the custom form name does not exist in json configs
-                if (!elementsToApplyValidationOn.hasOwnProperty(otfFormNameToProcess)) {
-                    throw new CustomError("OnTheFly.js ERROR", "Unknown data-otfForm" + ' "' + otfFormNameToProcess + '"' + ", was not declared in onTheFlyJsonConfig");
+                if (!elementsToApplyValidationOn.hasOwnProperty(frFormNameToProcess)) {
+                    throw new CustomError("FormRider.js ERROR", "Unknown data-frForm" + ' "' + frFormNameToProcess + '"' + ", was not declared in formRiderJsonConfig");
                 }
             })
         });
@@ -37,17 +37,17 @@ export class Processor {
         2- Block the DOM using setTimeout while validating
         3- when validation is done => show error notification / show confirmation notification + unblock the DOM + submit
         */
-    processing(otfForm, otfFormNameToProcess, onTheFlyConfigs) {
+    processing(frForm, frFormNameToProcess, formRiderConfigs) {
 
-        let postURL = this.getFormAction(otfForm);
-        let requestMethod = this.getFormRequestMethod(otfForm);
-        let formDataEncoded = this.getFormDataToKeyValueArrayEncodedURL(otfForm);
-        let formData = this.getFormDataToKeyValue(otfForm);
+        let postURL = this.getFormAction(frForm);
+        let requestMethod = this.getFormRequestMethod(frForm);
+        let formDataEncoded = this.getFormDataToKeyValueArrayEncodedURL(frForm);
+        let formData = this.getFormDataToKeyValue(frForm);
         let dataToSubmit = formDataEncoded.join("&");
 
 
         //create a new instance of InputValidation in order to validate the input
-        let inputValidation = new InputValidation(otfFormNameToProcess, formData, onTheFlyConfigs);
+        let inputValidation = new InputValidation(frFormNameToProcess, formData, formRiderConfigs);
         let _this = this;
         let timer = setTimeout(function () {
             if (inputValidation.validated) {
@@ -55,7 +55,7 @@ export class Processor {
                 if (inputValidation.inputValidationRecap[1].length === 0) {
                     _this.sendData(requestMethod, postURL, dataToSubmit);
                 }
-                new NotificationGenerator(inputValidation.inputValidationRecap, onTheFlyConfigs);
+                new NotificationGenerator(inputValidation.inputValidationRecap, formRiderConfigs);
             }
             clearTimeout(timer);
         }, 100);
@@ -87,7 +87,7 @@ export class Processor {
                 //anticipate checkbox validation
                 if (element.type === "checkbox") {
                     if (element.checked === false) {
-                        elementValue = "otfCheckBoxNoValue";
+                        elementValue = "frCheckBoxNoValue";
                     }
                 }
 
@@ -95,7 +95,7 @@ export class Processor {
                 //anticipate radio validation
                 if (element.type === "radio") {
                     if (element.checked === false) {
-                        elementValue = "otfRadioNoValue";
+                        elementValue = "frRadioNoValue";
                     }
                 }
 

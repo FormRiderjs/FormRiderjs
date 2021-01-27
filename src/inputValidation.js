@@ -1,7 +1,7 @@
 import {CustomError} from "./customError.js";
 
 export class InputValidation {
-    constructor(otfFormNameToProcess, formData, onTheFlyConfigs) {
+    constructor(frFormNameToProcess, formData, formRiderConfigs) {
         /*this array is accessible from all methods. whenever an error occurred, it
         will be pushed to this array and passed to notificationGenerator after  */
         this.inputValidationRecap = [];
@@ -23,7 +23,7 @@ export class InputValidation {
 
 
         //extracting the elementsToApplyValidationOn from json file and passing it to the next then
-        let elementToApplyValidationOn = this.extractJsonElementToApplyValidationOn(onTheFlyConfigs, otfFormNameToProcess);
+        let elementToApplyValidationOn = this.extractJsonElementToApplyValidationOn(formRiderConfigs, frFormNameToProcess);
         this.jsonInputNameToValidate = elementToApplyValidationOn.inputNameToValidate;
 
         this.resetFormUponSubmitValue = elementToApplyValidationOn.resetFormUponSubmit;
@@ -55,9 +55,9 @@ export class InputValidation {
 
             if (formInputName !== jsonInputNameToValidateKey) {
                 if (jsonInputNameToValidateKey === undefined) {
-                    throw new CustomError("OnTheFly.js ERROR", "Unknown data-name" + ' "' + formInputName + '" ' + "not declared in onTheFlyJsonConfig");
+                    throw new CustomError("FormRider.js ERROR", "Unknown data-name" + ' "' + formInputName + '" ' + "not declared in formRiderJsonConfig");
                 }
-                throw new CustomError("OnTheFly.js ERROR", "Unknown data-name" + ' "' + jsonInputNameToValidateKey + '" ' + "in onTheFlyJsonConfig ");
+                throw new CustomError("FormRider.js ERROR", "Unknown data-name" + ' "' + jsonInputNameToValidateKey + '" ' + "in formRiderJsonConfig ");
             }
 
 
@@ -101,7 +101,7 @@ export class InputValidation {
             if (this.doesHasInCommon === false) {
                 this.inputValidationRecap.push(this.validationErrorArray);
             }
-            this.resetFormUponSubmit(otfFormNameToProcess, this.resetFormUponSubmitValue, this.validationErrorArray);
+            this.resetFormUponSubmit(frFormNameToProcess, this.resetFormUponSubmitValue, this.validationErrorArray);
             return this;
         }, 100);
     }
@@ -146,23 +146,23 @@ export class InputValidation {
 
             .catch((error) => {
                 this.validated = false;
-                throw new CustomError("OnTheFly.js ERROR", "Unknown validator property '" + propertyKey + "' in onTheFlyJsonConfig ");
+                throw new CustomError("FormRider.js ERROR", "Unknown validator property '" + propertyKey + "' in formRiderJsonConfig ");
             })
     }
 
 //==============================================================================
 
     purifyValidationErrorArray(validationErrorArray, validatedInCommonGroup, inCommonCorrespondence) {
-
-        //for every input, the inCommon name will be put in [0], the sum of givenPoints will be put in [1], false will be replace by true if the inCommon is validated otherwise it well be kept false
+        //for every input, the inCommon name will be put in [0], the sum of givenPoints will be put in [1], in [2] false will be replace by true if the inCommon is validated otherwise it well be kept false
         let sumValidatedInCommonPointsGiven = [[undefined, 0, false]];
-
+        //index in sumValidatedInCommonPointsGiven to be filled, this value will be incremented every time the validatedInCommonName of a validatedInCommonGroup is not equal to the validatedInCommonName of the next validatedInCommonGroup
         let indexToBeFilled = 0;
+
 
         for (let i = 0; i < validatedInCommonGroup.length; i++) {
             let validatedInCommonName = validatedInCommonGroup[i][1].name;
             let inCommonPointsGiven = validatedInCommonGroup[i][1].pointsGiven;
-            let validatedInCommonNextName
+            let validatedInCommonNextName;
             if (i !== validatedInCommonGroup.length) {
                 if (validatedInCommonGroup[i + 1] !== undefined) {
 
@@ -195,9 +195,11 @@ export class InputValidation {
                 if (inCommonCorrespondence[j].name === sumValidatedInCommonPointsGiven[i][0]) {
                     if (inCommonCorrespondence[j].neededPointsToValidate === sumValidatedInCommonPointsGiven[i][1]) {
                         sumValidatedInCommonPointsGiven[i][2] = true;
+                        sumValidatedInCommonPointsGiven[i][3] = inCommonCorrespondence[j].errorMessage;
                     }
                     if (inCommonCorrespondence[j].neededPointsToValidate !== sumValidatedInCommonPointsGiven[i][1]) {
-                        sumValidatedInCommonPointsGiven[i][2] = false;
+                        sumValidatedInCommonPointsGiven[i][2] = false
+                        sumValidatedInCommonPointsGiven[i][3] = inCommonCorrespondence[j].errorMessage;
                     }
                 }
             }
@@ -215,15 +217,16 @@ export class InputValidation {
             }
         }
 
-        sumValidatedInCommonPointsGiven.length = 0;
+        console.log(sumValidatedInCommonPointsGiven);
+        // sumValidatedInCommonPointsGiven.length = 0;
 
         return validationErrorArray;
     }
 
 
-    //extract the elementsToApplyValidationOn depending on form id, so otfFormNameToProcess should be the same as the formId in json file
-    extractJsonElementToApplyValidationOn(jsonData, otfFormNameToProcess) {
-        return jsonData["elementsToApplyValidationOn"][otfFormNameToProcess];
+    //extract the elementsToApplyValidationOn depending on form id, so frFormNameToProcess should be the same as the formId in json file
+    extractJsonElementToApplyValidationOn(jsonData, frFormNameToProcess) {
+        return jsonData["elementsToApplyValidationOn"][frFormNameToProcess];
     }
 
 
@@ -236,9 +239,9 @@ export class InputValidation {
 //==============================================================================
 
     //resetting form upon submit
-    resetFormUponSubmit(otfFormNameToProcess, resetFormUponSubmitValue, errorArray) {
+    resetFormUponSubmit(frFormNameToProcess, resetFormUponSubmitValue, errorArray) {
         if (resetFormUponSubmitValue === true && errorArray.length === 0) {
-            document.querySelector("[data-otfForm = " + otfFormNameToProcess + "]").reset();
+            document.querySelector("[data-otfForm = " + frFormNameToProcess + "]").reset();
         }
     }
 
