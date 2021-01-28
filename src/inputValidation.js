@@ -53,6 +53,7 @@ export class InputValidation {
             let jsonInputNameToValidateKey = jsonInputNameToValidateKeys[i]; //indicated inputNameToValidate in json configs
 
 
+            //Throw an error when formInputName in HTML is not defined in formRiderJsonConfigs
             if (formInputName !== jsonInputNameToValidateKey) {
                 if (jsonInputNameToValidateKey === undefined) {
                     throw new CustomError("FormRider.js ERROR", "Unknown data-name" + ' "' + formInputName + '" ' + "not declared in formRiderJsonConfig");
@@ -124,7 +125,8 @@ export class InputValidation {
                 if (lastElementInHasInCommon === true) {
                     usedValidation.validateInCommon(propertyKeyCapitalized, propertyValue, formInputName, formInputValue, propertyErrorText);
 
-                    //when validated
+
+                    //when validated push into validatedInCommonGroup array
                     if (usedValidation.inCommonValidatedStatus === true) {
                         this.validatedInCommonGroup.push(propertyValue);
                     }
@@ -189,22 +191,24 @@ export class InputValidation {
             }
         }
 
-
+        let found = sumValidatedInCommonPointsGiven.length;
         for (let j = 0; j < inCommonCorrespondence.length; j++) {
             for (let i = 0; i < sumValidatedInCommonPointsGiven.length; i++) {
                 if (inCommonCorrespondence[j].name === sumValidatedInCommonPointsGiven[i][0]) {
                     if (inCommonCorrespondence[j].neededPointsToValidate === sumValidatedInCommonPointsGiven[i][1]) {
                         sumValidatedInCommonPointsGiven[i][2] = true;
-                        sumValidatedInCommonPointsGiven[i][3] = inCommonCorrespondence[j].errorMessage;
                     }
                     if (inCommonCorrespondence[j].neededPointsToValidate !== sumValidatedInCommonPointsGiven[i][1]) {
                         sumValidatedInCommonPointsGiven[i][2] = false
-                        sumValidatedInCommonPointsGiven[i][3] = inCommonCorrespondence[j].errorMessage;
                     }
+                    found--;
                 }
             }
         }
 
+        if(found > 0){
+            throw new CustomError("FormRider.js ERROR", "inCommon names or inCommonCorrespondence names were not declared correctly ");
+        }
 
         for (let i = 0; i < sumValidatedInCommonPointsGiven.length; i++) {
             if (sumValidatedInCommonPointsGiven[i][2] === true) {
@@ -217,7 +221,6 @@ export class InputValidation {
             }
         }
 
-        console.log(sumValidatedInCommonPointsGiven);
         // sumValidatedInCommonPointsGiven.length = 0;
 
         return validationErrorArray;

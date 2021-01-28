@@ -49,12 +49,19 @@ export class NotificationGenerator {
 
     notificationAssembler(jsonNotifications, formNotificationCode) {
 
+        let notificationCodeIsFound = false;
+
         for (let i = 0; i < jsonNotifications.length; i++) {
             if (jsonNotifications[i].notificationCode === formNotificationCode) {
                 this.notificationText = jsonNotifications[i]["text"];
                 this.notificationTextColor = jsonNotifications[i]["textColor"];
                 this.notificationBackgroundColor = jsonNotifications[i]["backgroundColor"];
+                notificationCodeIsFound = true;
             }
+        }
+
+        if(notificationCodeIsFound === false){
+            throw new CustomError("FormRider.js ERROR", "Notification code is not defined in notifications");
         }
     }
 

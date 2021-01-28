@@ -80,16 +80,14 @@
       },
       "resetFormUponSubmit": false,
       "inCommonCorrespondence": [
-        {
-          "name": "wish",
-          "neededPointsToValidate": 2,
-          "errorMessage" : "please follow the instructions, your submission was not accepted"
-        },
+
         {
           "name": "name",
-          "neededPointsToValidate": 1,
-          "errorMessage" : "You should only chose one name"
-
+          "neededPointsToValidate": 1
+        },
+        {
+          "name": "wish",
+          "neededPointsToValidate": 2
         }
       ],
       "inputNameToValidate": {
@@ -221,12 +219,12 @@
             {
               "inCommon": [
                 {
-                  "name": "name",
+                  "name": "namee",
                   "pointsGiven": 1
                 }
               ]
             },
-            "You should chose 1 name or fill (Another name)"
+            "HELLO IT IS REHAM HELLO IT IS REHAM"
           ]
         },
         "sadek": {
