@@ -80,7 +80,6 @@
       },
       "resetFormUponSubmit": false,
       "inCommonCorrespondence": [
-
         {
           "name": "name",
           "neededPointsToValidate": 1
@@ -219,7 +218,7 @@
             {
               "inCommon": [
                 {
-                  "name": "namee",
+                  "name": "name",
                   "pointsGiven": 1
                 }
               ]
@@ -279,12 +278,15 @@
             "You should chose 1 name or fill (Another name)"
           ]
         },
-
         "anotherName": {
-          "maxLength": [
-            2,
-            "is required if no checkbox are checked"
-          ]
+          "minLength": [
+            6,
+            "Min length is 6"
+          ],
+           "required" : [
+             true,
+             "another name is required"
+           ]
         }
       }
     }

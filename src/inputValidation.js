@@ -193,9 +193,8 @@ export class InputValidation {
         }
 
         let inCommonCorrespondenceLength = inCommonCorrespondence.length;
-        let declaredInCommonNameCounter = 0;
-        let inCommonNameCounter = 0;
-
+        let declaredInCommonNameCounter = 0; //used for testing
+        let inCommonNameCounter = 0; //used for testing
 
         for (let j = 0; j < inCommonCorrespondenceLength; j++) {
             for (let i = 0; i < sumValidatedInCommonPointsGiven.length; i++) {
@@ -206,13 +205,20 @@ export class InputValidation {
                     if (inCommonCorrespondence[j].neededPointsToValidate !== sumValidatedInCommonPointsGiven[i][1]) {
                         sumValidatedInCommonPointsGiven[i][2] = false
                     }
+                    //incrementation used for testing
                     declaredInCommonNameCounter++;
                 }
+                //incrementation used for testing
                 inCommonNameCounter++;
             }
         }
 
-        //TESTING =========================================================
+        //TESTING ======================================================================================================
+        /*
+        * Testing if inCommon name is not defined, test only working when the checkbox is clicked, how it works ?
+        * declaredInCommonNameCounter : incremented every time the inCommon name is declared
+        * inCommonNameCounter : incremented every time, whether it is declared or not.
+        * */
         if (inCommonNameCounter / declaredInCommonNameCounter === Infinity && sumValidatedInCommonPointsGiven[0][0] !== undefined) {
             throw new CustomError("FormRider.js ERROR", "an inCommon name was not defined in inCommon correspondence");
         }
@@ -221,7 +227,7 @@ export class InputValidation {
                 throw new CustomError("FormRider.js ERROR", "an inCommon name was not defined in inCommon correspondence");
             }
         }
-        //=================================================================
+        //==============================================================================================================
 
 
         for (let i = 0; i < sumValidatedInCommonPointsGiven.length; i++) {

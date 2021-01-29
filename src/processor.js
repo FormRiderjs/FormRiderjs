@@ -52,8 +52,13 @@ export class Processor {
         let timer = setTimeout(function () {
             if (inputValidation.validated) {
                 //check if the error array is empty or not, if it is empty then submit data and then show the notification, if not then do noting and only show the notification
-                if (inputValidation.inputValidationRecap[1].length === 0) {
-                    _this.sendData(requestMethod, postURL, dataToSubmit);
+
+                try{
+                    if (inputValidation.inputValidationRecap[1].length === 0) {
+                        _this.sendData(requestMethod, postURL, dataToSubmit);
+                    }
+                } catch (error){
+                    throw new CustomError("FormRider.js ERROR", "Process stopped, an error has occurred");
                 }
                 new NotificationGenerator(inputValidation.inputValidationRecap, formRiderConfigs);
             }
