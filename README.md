@@ -16,7 +16,7 @@ git clone https://github.com/iLoveSemicolons/validateOnTheFly.git
    by the path to validateOnTheFly file in your project.
   
 ```HTML
-<script src="<PATH>/formRiderjs/src/formRider.js"> </script> 
+<script src="<PATH>/formRiderjs/src/index.js"> </script> 
 ```
 
 ----------

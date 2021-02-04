@@ -279,14 +279,7 @@
           ]
         },
         "anotherName": {
-          "minLength": [
-            6,
-            "Min length is 6"
-          ],
-           "required" : [
-             true,
-             "another name is required"
-           ]
+          "dateFormat": [[[2,2,4],[[0,31],[0,12],[2000,2020]],["/"]] , "aeoigoaegoiaegoiabeg"]
         }
       }
     }

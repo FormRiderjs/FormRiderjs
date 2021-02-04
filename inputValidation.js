@@ -118,7 +118,7 @@ export class InputValidation {
         //Capitalize first letter of the property key
         let propertyKeyCapitalized = propertyKey.charAt(0).toUpperCase() + propertyKey.slice(1);
 
-        import ("./validators/checkInput" + propertyKeyCapitalized + ".js")
+        import ("./src/validators/checkInput" + propertyKeyCapitalized + ".js")
             .then((validator) => {
                 let usedValidation = new validator["CheckInput" + propertyKeyCapitalized];
                 //if the element has an inCommon then launch the validateInCommon function

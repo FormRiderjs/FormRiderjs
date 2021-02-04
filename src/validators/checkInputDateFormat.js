@@ -1,16 +1,17 @@
-export class CheckInputDateFormat{
+export class CheckInputDateFormat {
     constructor() {
-
         this.validationErrorArray = [];
     }
 
     validate(propertyKeyCapitalized, propertyValue, formInputName, formInputValue, propertyErrorText) {
+
 
         let propertyDateValueArray = propertyValue[0];
         let propertyDateLimitationArray = propertyValue[1];
         let propertyDateSeparator = propertyValue[2][0];
 
         let propertyDateValueArrayLength = propertyDateValueArray.length;
+        console.log(propertyDateValueArrayLength);
         let propertyDateLimitationArrayLength = propertyDateLimitationArray.length;
         let formInputValueLength = formInputValue.length;
 
@@ -100,7 +101,7 @@ export class CheckInputDateFormat{
                 || ((numberOfNumbersInFormInputValue !== numberOfNumbersInPropertyDateValueArray) && (formInputValueLength > 0))
                 || doCheckForWhiteSpace(formInputValue) === true) {
 
-                this.validationErrorArray.push(formInputName,propertyErrorText);
+                this.validationErrorArray.push(formInputName, propertyErrorText);
             } else {
 
                 //another way of saying "Input should contain only numbers"
@@ -121,7 +122,7 @@ export class CheckInputDateFormat{
                         if (slicedValue < propertyDateLimitationMinValue
                             || slicedValue > propertyDateLimitationMaxValue) {
 
-                            this.validationErrorArray.push(formInputName,propertyErrorText);
+                            this.validationErrorArray.push(formInputName, propertyErrorText);
                         }
                     }
                 }
@@ -129,7 +130,6 @@ export class CheckInputDateFormat{
 
                 // IT SHOULD CONTAIN a STRING e.g. 04september1994
                 if (numberOfDateValueFieldsContainingTrue === 1) {
-
                     for (let i = 0; i < propertyDateValueArrayLength; i++) {
                         let characterIsNumber = checkCharacterIfNumber(formInputValue[startingIndex]);
                         let propertyDateValue = propertyDateValueArray[i];
@@ -139,7 +139,7 @@ export class CheckInputDateFormat{
                         if (typeof (propertyDateValue) === "number" && formInputValueLength > 0) {
 
                             if (characterIsNumber === false) {
-                                this.validationErrorArray.push(formInputName,propertyErrorText);
+                                this.validationErrorArray.push(formInputName, propertyErrorText);
                             }
 
                             if (characterIsNumber === true) {
@@ -152,7 +152,7 @@ export class CheckInputDateFormat{
                                 if (slicedValue < propertyDateLimitationMinValue
                                     || slicedValue > propertyDateLimitationMaxValue) {
 
-                                    this.validationErrorArray.push(formInputName,propertyErrorText);
+                                    this.validationErrorArray.push(formInputName, propertyErrorText);
                                 }
                             }
                         }
@@ -160,7 +160,7 @@ export class CheckInputDateFormat{
                         if (propertyDateValue === true && formInputValueLength > 0) {
                             if (characterIsNumber === true) {
 
-                                this.validationErrorArray.push(formInputName,propertyErrorText);
+                                this.validationErrorArray.push(formInputName, propertyErrorText);
                             }
 
                             for (let x = startingIndex; x < formInputValueLength; x++) {
@@ -171,7 +171,7 @@ export class CheckInputDateFormat{
                                     stringLength++;
                                 } else if (stringLength >= 12) {
 
-                                    this.validationErrorArray.push(formInputName,propertyErrorText);
+                                    this.validationErrorArray.push(formInputName, propertyErrorText);
                                 } else if (characterIsNumber === true) {
                                     startingIndex += stringLength;
 
@@ -187,13 +187,12 @@ export class CheckInputDateFormat{
 
 
         if (propertyDateSeparator !== "") {
-
-            let dateSeparatorRegex = new RegExp(propertyDateSeparator, "g")
+            let dateSeparatorRegex = new RegExp(propertyDateSeparator, "g");
             let dateSeparatorNumberInFormInput = dateSeparatorCounter(formInputValue, dateSeparatorRegex);
 
-
             if (dateSeparatorNumberInFormInput !== propertyDateValueArrayLength - 1 && formInputValueLength > 0) {
-                this.validationErrorArray.push(formInputName,propertyErrorText);
+
+                this.validationErrorArray.push(formInputName, propertyErrorText);
             } else {
                 let formInputValueSplit = formInputValue.split(propertyDateSeparator);
 
@@ -203,14 +202,14 @@ export class CheckInputDateFormat{
                     if (typeof (propertyDateValueArray[i]) === "number") {
                         if (numberOfNumbersInOneSplit !== propertyDateValueArray[i]
                             || formInputValueSplit[i].length !== propertyDateValueArray[i]) {
-                            this.validationErrorArray.push(formInputName,propertyErrorText);
+                            this.validationErrorArray.push(formInputName, propertyErrorText);
                         } else {
                             let propertyDateLimitationMinValue = propertyDateLimitationArray[i][0];
                             let propertyDateLimitationMaxValue = propertyDateLimitationArray[i][1];
 
                             if (formInputValueSplit[i] < propertyDateLimitationMinValue
                                 || formInputValueSplit[i] > propertyDateLimitationMaxValue) {
-                                this.validationErrorArray.push(formInputName,propertyErrorText);
+                                this.validationErrorArray.push(formInputName, propertyErrorText);
                             }
                         }
                     }
@@ -220,7 +219,7 @@ export class CheckInputDateFormat{
 
                         if ((formInputValueSplit[i].length > 12)
                             || (characterIsNumber === true)) {
-                            this.validationErrorArray.push(formInputName,propertyErrorText);
+                            this.validationErrorArray.push(formInputName, propertyErrorText);
                         }
                     }
                 }
