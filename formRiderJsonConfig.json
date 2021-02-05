@@ -279,7 +279,7 @@
           ]
         },
         "anotherName": {
-          "dateFormat": [[[2,2,4],[[0,31],[0,12],[2000,2020]],["/"]] , "aeoigoaegoiaegoiabeg"]
+          "required": [true, "another name is required"]
         }
       }
     }

@@ -1,20 +1,13 @@
 
+
+
 export class UINotification {
 
-    // static lastNotificationInstanceId = 0;
-
-    static notificationActivated = false;
     static uiNotification;
-
-
-    static notificationActivationStatus (status) {
-        return status;
-    }
 
 
     constructor(inputValidationErrorArray, notificationText, notificationTextColor, notificationBackgroundColor) {
 
-        // this.notificationInstanceId = UINotification.lastNotificationInstanceId++;
 
         this.notificationBox = this.createNotificationBox(notificationBackgroundColor);
         this.errorBox = this.createErrorBox();
@@ -31,18 +24,15 @@ export class UINotification {
         UINotification.uiNotification = this.notification;
 
 
-        this.closeNotificationAutomatically(this.notification, inputValidationErrorArray, 2000);
+
+        this.closeNotificationAutomatically(this.notification, inputValidationErrorArray, 20000);
         this.closeNotificationManually(this.notification, closeBoxButton);
-
     }
-
-
-
 
     static closePrecedentNotifications(notification){
         notification.parentNode.removeChild(notification);
-        UINotification.notificationActivated = false;
     }
+
 
 
     createNotificationBox(notificationBackgroundColor) {
@@ -123,7 +113,7 @@ export class UINotification {
                 //if notification is already closed then do nothing
                 if (notification.parentNode !== null) {
                     notification.parentNode.removeChild(notification);
-                    UINotification.notificationActivated = false;
+                    UINotification.activationStatus = false;
                 }
             }, delay);
         }
@@ -133,9 +123,10 @@ export class UINotification {
     closeNotificationManually(notification, closeBoxButton) {
         closeBoxButton.addEventListener("click", (e) => {
             notification.parentNode.removeChild(notification);
-            UINotification.notificationActivated = false;
+            UINotification.activationStatus = false;
         });
     }
+
 }
 
 

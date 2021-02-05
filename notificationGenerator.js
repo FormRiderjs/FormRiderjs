@@ -1,12 +1,17 @@
 import {CustomError} from "./customError.js";
 import {UINotification} from "./src/uiNotification/uiNotification.js";
 
+
+
 export class NotificationGenerator {
     constructor(inputValidationRecap, formRiderConfigs) {
 
         this.notificationText = "";
         this.notificationTextColor = "";
         this.notificationBackgroundColor = "";
+
+
+
 
 
         let inputValidationErrorArray = inputValidationRecap[1];
@@ -22,17 +27,46 @@ export class NotificationGenerator {
         this.notificationAssembler(formRiderConfigs.notifications, formNotificationCode, inputValidationErrorArray);
 
 
+        let activationStatus  = NotificationGenerator.getActivationStatus();
 
-        if(UINotification.notificationActivated === true){
+        if(activationStatus === true){
+
+            //get the notification from the uiNotification ....
             UINotification.closePrecedentNotifications(UINotification.uiNotification);
+            NotificationGenerator.setActivationStatus(false);
+
         }
 
-        new UINotification(inputValidationErrorArray, this.notificationText, this.notificationTextColor ,this.notificationBackgroundColor);
 
-        UINotification.notificationActivated = true;
+        let notification =new UINotification(inputValidationErrorArray, this.notificationText, this.notificationTextColor ,this.notificationBackgroundColor);
+
+
+        NotificationGenerator.setActivationStatus(true);
+
     }
 
 
+
+
+
+
+    static setActivationStatus(newStatus){
+        if(newStatus === false){
+            this.activationStatus = false;
+        }
+        if(newStatus === true){
+            this.activationStatus = true;
+        }
+    }
+
+    static getActivationStatus(){
+        return this.activationStatus;
+    }
+
+
+    static getNotification (){
+
+    }
 
 
 /*
@@ -68,14 +102,7 @@ export class NotificationGenerator {
 */
 
 
-/*    closeAllPrecedentNotification(notification)
-    {
-        let currentNotificationId = UINotification.lastNotificationInstanceId
-        if(currentNotificationId > 1){
-            notification.parentNode.removeChild(notification);
-            UINotification.lastNotificationInstanceId = 0;
-        }
-    }*/
+
 
 
 
