@@ -31,22 +31,31 @@ export class NotificationGenerator {
 
         if(activationStatus === true){
 
-            //get the notification from the uiNotification ....
+            let notification = NotificationGenerator.getNotification();
+
+            // UINotification.closePrecedentNotifications(notification);
             UINotification.closePrecedentNotifications(UINotification.uiNotification);
             NotificationGenerator.setActivationStatus(false);
-
         }
 
 
-        let notification =new UINotification(inputValidationErrorArray, this.notificationText, this.notificationTextColor ,this.notificationBackgroundColor);
+        let notification = new UINotification(inputValidationErrorArray, this.notificationText, this.notificationTextColor ,this.notificationBackgroundColor);
 
-
+        NotificationGenerator.setNotification(notification);
         NotificationGenerator.setActivationStatus(true);
 
     }
 
 
 
+
+    static setNotification(notification){
+        this.notification = notification.notification;
+    }
+
+    static getNotification(){
+        return this.notification;
+    }
 
 
 
@@ -64,42 +73,43 @@ export class NotificationGenerator {
     }
 
 
-    static getNotification (){
-
-    }
 
 
-/*
-    constructor(inputValidationRecap, formRiderConfigs) {
-
-        this.notificationText = "";
-        this.notificationTextColor = "";
-        this.notificationBackgroundColor = "";
 
 
-        let inputValidationErrorArray = inputValidationRecap[1];
-        let inputValidationErrorLength = inputValidationErrorArray.length;
 
-        //terminate process and show uncaught error, anyway...this will happen only if there is previous errors it is done to prevent unnecessary errors to be shown
-        if (inputValidationErrorArray === undefined) {
-            throw new CustomError("FormRider.js ERROR", "Uncaught error");
+
+    /*
+        constructor(inputValidationRecap, formRiderConfigs) {
+
+            this.notificationText = "";
+            this.notificationTextColor = "";
+            this.notificationBackgroundColor = "";
+
+
+            let inputValidationErrorArray = inputValidationRecap[1];
+            let inputValidationErrorLength = inputValidationErrorArray.length;
+
+            //terminate process and show uncaught error, anyway...this will happen only if there is previous errors it is done to prevent unnecessary errors to be shown
+            if (inputValidationErrorArray === undefined) {
+                throw new CustomError("FormRider.js ERROR", "Uncaught error");
+            }
+
+
+            let formNotificationCode = this.extractFormNotificationCode(inputValidationRecap[0], inputValidationErrorLength);
+            this.notificationAssembler(formRiderConfigs.notifications, formNotificationCode, inputValidationErrorArray);
+
+
+
+            if(UINotification.notificationActivated === true){
+                UINotification.closePrecedentNotifications(UINotification.uiNotification);
+            }
+
+            new UINotification(inputValidationErrorArray, this.notificationText, this.notificationTextColor ,this.notificationBackgroundColor);
+
+            UINotification.notificationActivated = true;
         }
-
-
-        let formNotificationCode = this.extractFormNotificationCode(inputValidationRecap[0], inputValidationErrorLength);
-        this.notificationAssembler(formRiderConfigs.notifications, formNotificationCode, inputValidationErrorArray);
-
-
-
-        if(UINotification.notificationActivated === true){
-            UINotification.closePrecedentNotifications(UINotification.uiNotification);
-        }
-
-        new UINotification(inputValidationErrorArray, this.notificationText, this.notificationTextColor ,this.notificationBackgroundColor);
-
-        UINotification.notificationActivated = true;
-    }
-*/
+    */
 
 
 

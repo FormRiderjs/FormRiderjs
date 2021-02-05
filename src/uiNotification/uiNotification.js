@@ -1,4 +1,4 @@
-
+import {NotificationGenerator} from "../../notificationGenerator.js";
 
 
 export class UINotification {
@@ -29,9 +29,14 @@ export class UINotification {
         this.closeNotificationManually(this.notification, closeBoxButton);
     }
 
+
+
+
     static closePrecedentNotifications(notification){
         notification.parentNode.removeChild(notification);
     }
+
+
 
 
 
@@ -113,7 +118,7 @@ export class UINotification {
                 //if notification is already closed then do nothing
                 if (notification.parentNode !== null) {
                     notification.parentNode.removeChild(notification);
-                    UINotification.activationStatus = false;
+                    NotificationGenerator.setActivationStatus(false);
                 }
             }, delay);
         }
@@ -123,7 +128,7 @@ export class UINotification {
     closeNotificationManually(notification, closeBoxButton) {
         closeBoxButton.addEventListener("click", (e) => {
             notification.parentNode.removeChild(notification);
-            UINotification.activationStatus = false;
+            NotificationGenerator.setActivationStatus(false);
         });
     }
 
