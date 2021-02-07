@@ -2,6 +2,7 @@
 import {InputValidation} from "./inputValidation.js";
 import {NotificationGenerator} from "./notificationGenerator.js";
 import {CustomError} from "./customError.js";
+import {formRider} from "./index.js";
 
 export class Processor {
     constructor(formRiderConfigs) {
@@ -9,24 +10,23 @@ export class Processor {
 
         let elementsToApplyValidationOn = formRiderConfigs["elementsToApplyValidationOn"];
 
-        let frForms = document.querySelectorAll("[data-frForm]");
-
+        let frForms = document.querySelectorAll("[data-frform]");
 
         /*      1- detect all frForms in the page
-                2- check if the data-frForm is declared in the jsonConfigs file
+                2- check if the data-frform is declared in the jsonConfigs file
                 3- if it is declared call the processing function otherwise show an error*/
         frForms.forEach((form) => {
             form.addEventListener("submit", (event) => {
                 event.preventDefault();
 
 
-                let frFormNameToProcess = event.currentTarget.attributes["data-frForm"].nodeValue;
+                let frFormNameToProcess = event.currentTarget.attributes["data-frform"].nodeValue;
                 if (elementsToApplyValidationOn.hasOwnProperty(frFormNameToProcess)) {
                     this.processing(form, frFormNameToProcess, formRiderConfigs)
                 }
                 //Throw an error when the custom form name does not exist in json configs
                 if (!elementsToApplyValidationOn.hasOwnProperty(frFormNameToProcess)) {
-                    throw new CustomError("FormRider.js ERROR", "Unknown data-frForm" + ' "' + frFormNameToProcess + '"' + ", was not declared in formRiderJsonConfig");
+                    throw new CustomError("FormRider.js ERROR", "Unknown data-frform" + ' "' + frFormNameToProcess + '"' + ", was not declared in formRiderJsonConfig");
                 }
             })
         });
@@ -56,6 +56,10 @@ export class Processor {
                 try{
                     if (inputValidation.inputValidationRecap[1].length === 0) {
                         _this.sendData(requestMethod, postURL, dataToSubmit);
+                        formRider.setValidationStatus(true);
+                    }
+                    if(inputValidation.inputValidationRecap[1].length !== 0) {
+                        formRider.setValidationStatus(false);
                     }
                 } catch (error){
                     throw new CustomError("FormRider.js ERROR", "Process stopped, an error has occurred");
