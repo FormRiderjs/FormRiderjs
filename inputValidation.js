@@ -148,7 +148,7 @@ export class InputValidation {
 
             .catch((error) => {
                 this.validated = false;
-                throw new CustomError("FormRider.js ERROR", "Unknown validator property '" + propertyKey + "' in formRiderJsonConfig ");
+                 throw new CustomError("FormRider.js ERROR", "Unknown validator property '" + propertyKey + "' in formRiderJsonConfig ");
             })
     }
 

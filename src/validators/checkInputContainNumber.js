@@ -45,7 +45,7 @@ export class CheckInputContainNumber{
                 }
             }
 
-        } else if (typeof (propertyValue) === "boolean" && formInputValueLength >= 0) {
+        } else if (typeof (propertyValue) === "boolean" && formInputValueLength > 0) {
             if (propertyValue === true) {
                 numberCounter(formInputValue);
                 if (numberOfNumbersInFormInput < formInputValueLength) {
