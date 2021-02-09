@@ -279,7 +279,7 @@
           ]
         },
         "anotherName": {
-          "dateFormat": [[[2,true,4],[[1,31],[true],[2000,2020]],[""]],"not the wanted format"]
+          "dateFormat": [[[2,2,4],[[1,31],[1,12],[2000,2020]],["/"]],"not the wanted format"]
         }
       }
     }

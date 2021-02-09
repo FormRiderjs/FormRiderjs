@@ -15,7 +15,7 @@ export class formRider{
             }
         })
             .then((response) => {
-                console.log("%cFormRider.js loaded successfully, thank you for using it, Happy validating ❤️ ");
+                console.log("FormRider.js loaded successfully, thank you for using it, Happy validating ❤️ ");
                 return response.json();
             })
             .then((formRiderConfigs) => {
