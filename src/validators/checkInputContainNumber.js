@@ -59,5 +59,11 @@ export class CheckInputContainNumber{
                 }
             }
         }
+        else if (typeof (propertyValue) === "number" && formInputValueLength > 0){
+            numberCounter(formInputValue);
+            if(numberOfNumbersInFormInput !== propertyValue){
+                this.validationErrorArray.push(formInputName, propertyErrorText);
+            }
+        }
     }
 }
