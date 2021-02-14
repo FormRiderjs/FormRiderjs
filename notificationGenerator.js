@@ -1,5 +1,5 @@
-import {CustomError} from "./customError.js";
-import {UINotification} from "./src/uiNotification/uiNotification.js";
+import { CustomError } from "./customError.js";
+import { UINotification } from "./src/uiNotification/uiNotification.js";
 
 
 
@@ -24,9 +24,9 @@ export class NotificationGenerator {
         this.notificationAssembler(formRiderConfigs.notifications, formNotificationCode, inputValidationErrorArray);
 
 
-        let activationStatus  = NotificationGenerator.getActivationStatus();
+        let activationStatus = NotificationGenerator.getActivationStatus();
 
-        if(activationStatus === true){
+        if (activationStatus === true) {
 
             let notification = NotificationGenerator.getNotification();
             UINotification.closePrecedentNotifications(notification);
@@ -34,7 +34,7 @@ export class NotificationGenerator {
         }
 
 
-        let notification = new UINotification(inputValidationErrorArray, this.notificationText, this.notificationTextColor ,this.notificationBackgroundColor);
+        let notification = new UINotification(inputValidationErrorArray, this.notificationText, this.notificationTextColor, this.notificationBackgroundColor);
 
         NotificationGenerator.setNotification(notification);
         NotificationGenerator.setActivationStatus(true);
@@ -45,26 +45,26 @@ export class NotificationGenerator {
 
     //==================================================================================================================
 
-    static setNotification(notification){
+    static setNotification(notification) {
         this.notification = notification.notification;
     }
 
-    static getNotification(){
+    static getNotification() {
         return this.notification;
     }
 
-    static setActivationStatus(newStatus){
-        if(newStatus === false){
+    static setActivationStatus(newStatus) {
+        if (newStatus === false) {
             this.activationStatus = false;
         }
-        if(newStatus === true){
+        if (newStatus === true) {
             this.activationStatus = true;
         }
     }
-    static getActivationStatus(){
-        return this.activationStatus;
-    }
-//==================================================================================================================
+    static getActivationStatus() {
+            return this.activationStatus;
+        }
+        //==================================================================================================================
 
 
 
@@ -81,7 +81,7 @@ export class NotificationGenerator {
             }
         }
 
-        if(notificationCodeIsFound === false){
+        if (notificationCodeIsFound === false) {
             throw new CustomError("FormRider.js ERROR", "Notification code is not defined in notifications");
         }
     }
@@ -96,4 +96,3 @@ export class NotificationGenerator {
     }
 
 }
-

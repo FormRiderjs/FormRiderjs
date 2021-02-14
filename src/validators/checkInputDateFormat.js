@@ -1,5 +1,3 @@
-import { CustomError } from "../../customError.js";
-
 export class CheckInputDateFormat {
     constructor() {
         this.validationErrorArray = [];

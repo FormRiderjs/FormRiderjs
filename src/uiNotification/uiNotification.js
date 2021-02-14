@@ -1,11 +1,10 @@
-import {NotificationGenerator} from "../../notificationGenerator.js";
+import { NotificationGenerator } from "../../notificationGenerator.js";
 
 
 export class UINotification {
 
 
     constructor(inputValidationErrorArray, notificationText, notificationTextColor, notificationBackgroundColor) {
-
 
         this.notificationBox = this.createNotificationBox(notificationBackgroundColor);
         this.errorBox = this.createErrorBox();
@@ -21,15 +20,23 @@ export class UINotification {
         this.notification = this.uiShowNotification(this.notificationBox);
 
 
-
-        this.closeNotificationAutomatically(this.notification, inputValidationErrorArray, 20000);
+        //=========================================================================================
+        //In case you want to modify uiNotification.js, keep these two methods, they are both connected to notificationGenerator.js
+        //=========================================================================================
+        //notification will be closed automatocally only when there is no errors
+        this.closeNotificationAutomatically(this.notification, inputValidationErrorArray, 10000);
+        //notification can ve closed manually when there is errors or no errors
         this.closeNotificationManually(this.notification, closeBoxButton);
+        //=========================================================================================
     }
 
-    static closePrecedentNotifications(notification){
-        notification.parentNode.removeChild(notification);
-    }
-
+    //=========================================================================================
+    //In case you want to modify uiNotification.js, keep the functionality of this method.
+    //=========================================================================================
+    static closePrecedentNotifications(notification) {
+            notification.parentNode.removeChild(notification);
+        }
+        //=========================================================================================
 
     createNotificationBox(notificationBackgroundColor) {
 
@@ -102,7 +109,7 @@ export class UINotification {
     }
 
 
-    closeNotificationAutomatically(notification, inputValidationErrorArray, delay) {
+    closeNotificationAutomatically(notification, inputValidationErrorArray, delayBeforeClosing) {
         //Close notification automatically only when there is no errors
         if (inputValidationErrorArray.length === 0) {
             setTimeout(() => {
@@ -111,7 +118,7 @@ export class UINotification {
                     notification.parentNode.removeChild(notification);
                     NotificationGenerator.setActivationStatus(false);
                 }
-            }, delay);
+            }, delayBeforeClosing);
         }
 
     }
