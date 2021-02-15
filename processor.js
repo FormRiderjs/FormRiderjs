@@ -1,8 +1,8 @@
 // this class will get formData, process data, call other necessary class
-import {InputValidation} from "./inputValidation.js";
-import {NotificationGenerator} from "./notificationGenerator.js";
-import {CustomError} from "./customError.js";
-import {formRider} from "./index.js";
+import { InputValidation } from "./inputValidation.js";
+import { NotificationGenerator } from "./notificationGenerator.js";
+import { CustomError } from "./customError.js";
+import { FormRiderjs } from "./index.js";
 
 export class Processor {
     constructor(formRiderConfigs) {
@@ -46,22 +46,29 @@ export class Processor {
         let dataToSubmit = formDataEncoded.join("&");
 
 
+
+
+
+
         //create a new instance of InputValidation in order to validate the input
-        let inputValidation = new InputValidation(frFormNameToProcess, formData, formRiderConfigs);
         let _this = this;
-        let timer = setTimeout(function () {
+        let inputValidation = new InputValidation(frFormNameToProcess, formData, formRiderConfigs);
+
+
+        let timer = setTimeout(function() {
+
             if (inputValidation.validated) {
                 //check if the error array is empty or not, if it is empty then submit data and then show the notification, if not then do noting and only show the notification
 
-                try{
+                try {
                     if (inputValidation.inputValidationRecap[1].length === 0) {
                         _this.sendData(requestMethod, postURL, dataToSubmit);
-                        formRider.setValidationStatus(true);
+                        FormRiderjs.setValidationStatus(true);
                     }
-                    if(inputValidation.inputValidationRecap[1].length !== 0) {
-                        formRider.setValidationStatus(false);
+                    if (inputValidation.inputValidationRecap[1].length !== 0) {
+                        FormRiderjs.setValidationStatus(false);
                     }
-                } catch (error){
+                } catch (error) {
                     throw new CustomError("FormRider.js ERROR", "Process stopped, an error has occurred");
                 }
                 new NotificationGenerator(inputValidation.inputValidationRecap, formRiderConfigs);
@@ -71,7 +78,7 @@ export class Processor {
     }
 
 
-//get all form inputs and values as key value into an array
+    //get all form inputs and values as key value into an array
     getFormDataToKeyValueArrayEncodedURL(form) {
         let formDataEncoded = [];
         for (let i = 0; i < form.elements.length; i++) {
@@ -115,23 +122,23 @@ export class Processor {
         return formData;
     }
 
-//get the form ID
+    //get the form ID
     getFormId(element) {
         return element.getAttribute("id");
     }
 
-//getting the action attribute from a form
+    //getting the action attribute from a form
     getFormAction(element) {
         return element.getAttribute("action");
     }
 
 
-//getting the method attribute from a form
+    //getting the method attribute from a form
     getFormRequestMethod(element) {
         return element.getAttribute("method");
     }
 
-//sending data with an ajax request
+    //sending data with an ajax request
     sendData(requestMethod, postURL, dataToSubmit) {
         let request = new XMLHttpRequest();
 
@@ -140,4 +147,3 @@ export class Processor {
         request.send(dataToSubmit);
     }
 }
-

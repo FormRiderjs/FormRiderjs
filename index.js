@@ -2,7 +2,7 @@ import { Processor } from "./processor.js";
 
 
 
-export class formRider {
+export class FormRiderjs {
     constructor() {
         let formRiderJSLocation =
             import.meta.url.slice(0, -9);
@@ -43,4 +43,4 @@ export class formRider {
     }
 }
 
-export default new formRider;
+export default new FormRiderjs;
