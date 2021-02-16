@@ -1,244 +1,26 @@
 {
     "notifications": [{
             "notificationCode": 1,
-            "text": "Thank you for contacting us ! : )",
-            "textColor": "#E6E6E6",
-            "backgroundColor": "#5CD8AA"
+            "text": "Message",
+            "textColor": "#color",
+            "backgroundColor": "#color"
         },
         {
             "notificationCode": 2,
-            "text": "Error with some fields.",
-            "textColor": "#E6E6E6",
-            "backgroundColor": "#E66767"
-        },
-        {
-            "notificationCode": 3,
-            "text": "Thank you for choosing a maintenance knowing that it should not be used for military issues",
-            "textColor": "#E6E6E6",
-            "backgroundColor": "#1B7CD1"
-        },
-        {
-            "notificationCode": 4,
-            "text": "Error with some fields...that is good because wars will stop.",
-            "textColor": "#E6E6E6",
-            "backgroundColor": "#ff9e2c"
+            "text": "Message",
+            "textColor": "#color",
+            "backgroundColor": "#color"
         }
     ],
     "elementsToApplyValidationOn": {
-        "computerWishes": {
+        "<replace by data-frform>": {
             "notificationCode": {
                 "validated": 1,
                 "notValidated": 2
             },
             "resetFormUponSubmit": false,
-            "inCommonCorrespondence": [{
-                "name": "calledByPreference",
-                "neededPointsToValidate": 1
-            }],
-            "inputNameToValidate": {
-                "firstName": {
-                    "radioRequired": [{
-                            "inCommon": [{
-                                "name": "calledByPreference",
-                                "pointsGiven": 1
-                            }]
-                        },
-                        "please chose fist name as a preference"
-                    ]
-                },
-                "otherPreference": {
-                    "required": [
-                        true,
-                        "please type another as a preference"
-                    ]
-                },
-                "lastName": {
-                    "radioRequired": [{
-                            "inCommon": [{
-                                "name": "calledByPreference",
-                                "pointsGiven": 1
-                            }]
-                        },
-                        "please chose last name as a preference"
-                    ]
-                }
-            }
-        },
-        "wishes": {
-            "notificationCode": {
-                "validated": 1,
-                "notValidated": 2
-            },
-            "resetFormUponSubmit": false,
-            "inCommonCorrespondence": [{
-                    "name": "name",
-                    "neededPointsToValidate": 1
-                },
-                {
-                    "name": "wish",
-                    "neededPointsToValidate": 2
-                }
-            ],
-            "inputNameToValidate": {
-                "car": {
-                    "checkboxRequired": [{
-                            "inCommon": [{
-                                "name": "wish",
-                                "pointsGiven": 2
-                            }]
-                        },
-                        "at least one check bo x should be checked"
-                    ]
-                },
-                "home": {
-                    "checkboxRequired": [{
-                            "inCommon": [{
-                                "name": "wish",
-                                "pointsGiven": 1
-                            }]
-                        },
-                        "required"
-                    ]
-                },
-                "computer": {
-                    "checkboxRequired": [{
-                            "inCommon": [{
-                                "name": "wish",
-                                "pointsGiven": 2
-                            }]
-                        },
-                        "at least one check box should be checked"
-                    ]
-                },
-                "guitar": {
-                    "checkboxRequired": [{
-                            "inCommon": [{
-                                "name": "wish",
-                                "pointsGiven": 1
-                            }]
-                        },
-                        "at least one check box should be checked"
-                    ]
-                },
-                "screen": {
-                    "checkboxRequired": [{
-                            "inCommon": [{
-                                "name": "wish",
-                                "pointsGiven": 2
-                            }]
-                        },
-                        "at least one check box should be checked"
-                    ]
-                },
-                "printer": {
-                    "checkboxRequired": [{
-                            "inCommon": [{
-                                "name": "wish",
-                                "pointsGiven": 2
-                            }]
-                        },
-                        "at least one check box should be checked"
-                    ]
-                },
-                "table": {
-                    "checkboxRequired": [{
-                            "inCommon": [{
-                                "name": "wish",
-                                "pointsGiven": 0
-                            }]
-                        },
-                        "at least one check box should be checked"
-                    ]
-                },
-                "phone": {
-                    "checkboxRequired": [{
-                            "inCommon": [{
-                                "name": "wish",
-                                "pointsGiven": 0
-                            }]
-                        },
-                        "at least one check box should be checked"
-                    ]
-                },
-                "anotherWish": {
-                    "containNumber": [
-                        true,
-                        "should only contain numbers"
-                    ]
-                },
-                "sirage": {
-                    "checkboxRequired": [{
-                            "inCommon": [{
-                                "name": "name",
-                                "pointsGiven": 1
-                            }]
-                        },
-                        "You should chose 1 name or fill (Another name)"
-                    ]
-                },
-                "reham": {
-                    "checkboxRequired": [{
-                            "inCommon": [{
-                                "name": "name",
-                                "pointsGiven": 1
-                            }]
-                        },
-                        "HELLO IT IS REHAM HELLO IT IS REHAM"
-                    ]
-                },
-                "sadek": {
-                    "checkboxRequired": [{
-                            "inCommon": [{
-                                "name": "name",
-                                "pointsGiven": 1
-                            }]
-                        },
-                        "You should chose 1 name or fill (Another name)"
-                    ]
-                },
-                "obab": {
-                    "checkboxRequired": [{
-                            "inCommon": [{
-                                "name": "name",
-                                "pointsGiven": 1
-                            }]
-                        },
-                        "You should chose 1 name or fill (Another name)"
-                    ]
-                },
-                "mohamed": {
-                    "checkboxRequired": [{
-                            "inCommon": [{
-                                "name": "name",
-                                "pointsGiven": 1
-                            }]
-                        },
-                        "You should chose 1 name or fill (Another name)"
-                    ]
-                },
-                "ghadah": {
-                    "checkboxRequired": [{
-                            "inCommon": [{
-                                "name": "name",
-                                "pointsGiven": 1
-                            }]
-                        },
-                        "You should chose 1 name or fill (Another name)"
-                    ]
-                },
-                "anotherName": {
-                    "dateFormat": [
-                        [
-                            [2, true, 4],
-                            [
-                                [1, 31],
-                                [],
-                                [2000, 2020]
-                            ],
-                            [""]
-                        ], "Date format not good"
-                    ]
-                }
+            "<replace by data-name>": {
+
             }
         }
     }
